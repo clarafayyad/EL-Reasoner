@@ -119,6 +119,9 @@ class ELReasoner:
     def disjunction_rule(self, d):
         for c in self.individuals[d]["concepts"]:
             for axiom in self.ontology.tbox().getAxioms():
+                axiom_type = axiom.getClass().getSimpleName()
+                if axiom_type != "GeneralConceptInclusion":
+                    continue
                 try:
                     lhs = self.formatter.format(axiom.lhs())
                     rhs = self.formatter.format(axiom.rhs())
