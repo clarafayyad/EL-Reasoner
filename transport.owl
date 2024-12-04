@@ -1,0 +1,42 @@
+<rdf:RDF xmlns="http://example.org/complex_transport#"
+     xml:base="http://example.org/complex_transport"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:owl="http://www.w3.org/2002/07/owl#"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#">
+
+    <owl:Ontology rdf:about="http://example.org/complex_transport"/>
+
+    <!-- Classes -->
+    <owl:Class rdf:about="#Vehicle"/>
+    <owl:Class rdf:about="#ElectricVehicle">
+        <rdfs:subClassOf rdf:resource="#Vehicle"/>
+    </owl:Class>
+    <owl:Class rdf:about="#PublicTransport">
+        <rdfs:subClassOf rdf:resource="#Vehicle"/>
+    </owl:Class>
+    <owl:Class rdf:about="#Bus">
+        <rdfs:subClassOf>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="#PublicTransport"/>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="#hasFuelType"/>
+                        <owl:someValuesFrom rdf:resource="#Diesel"/>
+                    </owl:Restriction>
+                </owl:intersectionOf>
+            </owl:Class>
+        </rdfs:subClassOf>
+    </owl:Class>
+    <owl:Class rdf:about="#Tram">
+        <rdfs:subClassOf rdf:resource="#ElectricVehicle"/>
+    </owl:Class>
+
+    <!-- Properties -->
+    <owl:ObjectProperty rdf:about="#hasFuelType"/>
+
+    <!-- Individuals -->
+    <owl:NamedIndividual rdf:about="#CityBus">
+        <rdf:type rdf:resource="#Bus"/>
+    </owl:NamedIndividual>
+</rdf:RDF>

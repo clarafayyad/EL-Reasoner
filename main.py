@@ -11,8 +11,8 @@ def main():
     # ontology_file = sys.argv[1]
     # class_name = sys.argv[2]
 
-    ontology_file = "pizza.owl"
-    class_name = "Margherita"
+    ontology_file = "person.owl"
+    class_name = "Child"
 
     try:
         gateway = JavaGateway()
@@ -22,6 +22,7 @@ def main():
         formatter = gateway.getSimpleDLFormatter()
         reasoner = ELReasoner(ontology, formatter)
         subsumers = reasoner.get_all_subsumers(class_name)
+        print("Subsumers of " + class_name + " are: ")
         for subsumer in subsumers:
             print(subsumer)
 

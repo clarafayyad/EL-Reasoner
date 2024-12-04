@@ -1,5 +1,17 @@
+import re
+
 from individual import Individual
 from roles import Role
+
+
+def extract_relation_and_successor(expression):
+    # Regular expression to match ∃r.C
+    match = re.match(r"∃([\w]+)\.([\w]+)", expression)
+    if match:
+        relation = match.group(1)
+        successor = match.group(2)
+        return relation, successor
+    return None, None
 
 
 class ELReasoner:
@@ -30,8 +42,11 @@ class ELReasoner:
 
         # Include nested concepts by recursively collecting from the LHS and RHS
         def extract_nested_concepts(concept):
-            if isinstance(concept, tuple):  # For conjunctions or other nested structures
-                for sub_concept in concept[1]:
+            if '⊓' in concept:
+                expression = concept.strip('()')
+                left, right = expression.split('⊓', 1)
+                subconcepts = [left.strip(), right.strip()]
+                for sub_concept in subconcepts:
                     relevant_concepts.add(sub_concept)
                     extract_nested_concepts(sub_concept)  # Recursively add nested concepts
 
@@ -55,14 +70,13 @@ class ELReasoner:
         changes = True
         while changes:
             changes = False
-            for d in self.individuals:
-                if self.top_rule(): changes = True
-                if self.conjunction_rule_1(): changes = True
-                if self.conjunction_rule_2(): changes = True
-                if self.existential_rule_1(): changes = True
-                if self.existential_rule_2(): changes = True
-                if self.concept_inclusion_rule(): changes = True
-                if self.process_t_box(): changes = True
+            if self.top_rule(): changes = True
+            if self.conjunction_rule_1(): changes = True
+            if self.conjunction_rule_2(): changes = True
+            if self.existential_rule_1(): changes = True
+            if self.existential_rule_2(): changes = True
+            if self.concept_inclusion_rule(): changes = True
+            if self.process_t_box(): changes = True
 
     def is_entailment(self, d0, D0):
         return D0 in self.individuals[d0].concepts
@@ -81,8 +95,11 @@ class ELReasoner:
         new_concepts = set()
         for ind_name, ind in self.individuals.items():
             for concept in ind.concepts:
-                if isinstance(concept, tuple) and concept[0] == "and":
-                    for part in concept[1]:
+                if '⊓' in concept:
+                    expression = concept.strip('()')
+                    left, right = expression.split('⊓', 1)
+                    parts = [left.strip(), right.strip()]
+                    for part in parts:
                         if self.is_relevant(part):
                             new_concepts.add(part)
             if new_concepts - ind.concepts:
@@ -106,29 +123,38 @@ class ELReasoner:
     def existential_rule_1(self):
         # Apply rule to all individuals
         changed = False
-        for ind_name, ind in self.individuals.items():
+        new_individuals = []  # Collect new individuals to add later
+
+        for ind_name, ind in list(self.individuals.items()):  # Iterate over a copy of the dictionary
             # For each individual, check if it has an existential concept ∃r.C
             for concept in ind.concepts:
-                if isinstance(concept, tuple) and concept[0] == "exists":
-                    relation, target_concept = concept[1]
+                if '∃' in concept and not '⊓' in concept:
+                    relation, target_concept = extract_relation_and_successor(concept)
                     # Look for an individual with the target concept
                     for e_name, e_ind in self.individuals.items():
-                        if target_concept in e_ind.concepts:
+                        if target_concept == e_ind.initial_concept:
                             # If such an individual exists, make it the r-successor of ind
-                            role = Role(relation, target_concept)
-                            ind.roles.add(role)
-                            changed = True
+                            role = Role(relation, target_concept, e_name)
+                            if not ind.has_role(role):
+                                ind.roles.add(role)
+                                changed = True
                             break
                     else:
-                        # If no such individual is found, create a new individual with target_concept
+                        # If no such individual is found, collect new individual data
                         ind_count = len(self.individuals)
                         new_ind_name = "d" + str(ind_count)
                         new_ind = Individual(new_ind_name)
                         new_ind.initial_concept = target_concept
-                        self.individuals[new_ind_name] = new_ind
-                        role = Role(relation, target_concept)
+                        new_ind.concepts.add(target_concept)
+                        new_individuals.append(new_ind)
+                        role = Role(relation, target_concept, new_ind_name)
                         ind.roles.add(role)
                         changed = True
+
+        # Add new individuals after the iteration
+        for new_ind in new_individuals:
+            self.individuals[new_ind.name] = new_ind
+
         return changed
 
     def existential_rule_2(self):
@@ -136,7 +162,7 @@ class ELReasoner:
         changed = False
         for ind_name, ind in self.individuals.items():
             for role in ind.roles:
-                existential_concept = ("exists", (role.relation, role.successor))
+                existential_concept = "∃" + role.relation + "." + role.successor
                 if self.is_relevant(existential_concept):
                     if existential_concept not in ind.concepts:
                         ind.concepts.add(existential_concept)

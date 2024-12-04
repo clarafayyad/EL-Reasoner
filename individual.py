@@ -5,3 +5,8 @@ class Individual(object):
         self.concepts = set()
         self.roles = set()
 
+    def has_role(self, role):
+        for r in self.roles:
+            if role.relation == r.relation and role.successor == r.successor and role.individual == r.individual:
+                return True
+        return False
