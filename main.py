@@ -11,8 +11,8 @@ def main():
     # ontology_file = sys.argv[1]
     # class_name = sys.argv[2]
 
-    ontology_file = "person.owl"
-    class_name = "Child"
+    ontology_file = "ontologies/amino-acid.amino-acid-ontology.2.owl.xml"
+    class_name = "Charge"
 
     try:
         gateway = JavaGateway()

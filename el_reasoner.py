@@ -1,8 +1,8 @@
+import copy
 import re
 
 from individual import Individual
 from roles import Role
-
 
 def extract_relation_and_successor(expression):
     # Regular expression to match ∃r.C
@@ -15,11 +15,12 @@ def extract_relation_and_successor(expression):
 
 
 class ELReasoner:
-    def __init__(self, ontology, formatter):
+    def __init__(self, ontology, formatter, debug=False):
         self.ontology = ontology
         self.formatter = formatter
         self.individuals = {}  # Dictionary mapping individuals to their concepts and roles.
         self.relevant_concepts = self.extract_relevant_concepts()
+        self.debug = debug
 
     def initialize_individual(self, d0, C0):
         new_individual = Individual(d0)
@@ -86,6 +87,7 @@ class ELReasoner:
         for ind_name, ind in self.individuals.items():
             if "⊤" not in ind.concepts:
                 self.individuals[ind_name].concepts.add("⊤")
+                print("Added concept ⊤ to individual", ind_name) if self.debug else None
                 changed = True
         return changed
 
@@ -104,6 +106,7 @@ class ELReasoner:
                             new_concepts.add(part)
             if new_concepts - ind.concepts:
                 self.individuals[ind_name].concepts.update(new_concepts)
+                print("Added these concepts to individual", ind_name, ":", new_concepts) if self.debug else None
                 changed = True
         return changed
 
@@ -117,26 +120,27 @@ class ELReasoner:
                     conjunction = ("and", frozenset({c1, c2}))
                     if c1 != c2 and self.is_relevant(conjunction) and conjunction not in concepts:
                         self.individuals[ind_name].concepts.add(conjunction)
+                        print("Added this concepts to individual", ind_name, ":", conjunction) if self.debug else None
                         changed = True
         return changed
 
     def existential_rule_1(self):
         # Apply rule to all individuals
         changed = False
-        new_individuals = []  # Collect new individuals to add later
-
-        for ind_name, ind in list(self.individuals.items()):  # Iterate over a copy of the dictionary
+        individuals_copy = copy.deepcopy(self.individuals)
+        for ind_name, ind in list(individuals_copy.items()):
             # For each individual, check if it has an existential concept ∃r.C
             for concept in ind.concepts:
                 if '∃' in concept and not '⊓' in concept:
                     relation, target_concept = extract_relation_and_successor(concept)
-                    # Look for an individual with the target concept
+                    # Look for an individual with the target concept as initial concept
                     for e_name, e_ind in self.individuals.items():
                         if target_concept == e_ind.initial_concept:
                             # If such an individual exists, make it the r-successor of ind
                             role = Role(relation, target_concept, e_name)
-                            if not ind.has_role(role):
-                                ind.roles.add(role)
+                            if not e_ind.has_role(role):
+                                e_ind.roles.add(role)
+                                print("Added this role to individual", ind_name, ":", role.__str__()) if self.debug else None
                                 changed = True
                             break
                     else:
@@ -145,16 +149,13 @@ class ELReasoner:
                         new_ind_name = "d" + str(ind_count)
                         new_ind = Individual(new_ind_name)
                         new_ind.initial_concept = target_concept
+                        print("Created new individual", new_ind_name, "with initial concept", target_concept) if self.debug else None
                         new_ind.concepts.add(target_concept)
-                        new_individuals.append(new_ind)
+                        self.individuals[new_ind_name] = new_ind
                         role = Role(relation, target_concept, new_ind_name)
                         ind.roles.add(role)
+                        print("Added this role to individual", ind_name, ":", role.__str__()) if self.debug else None
                         changed = True
-
-        # Add new individuals after the iteration
-        for new_ind in new_individuals:
-            self.individuals[new_ind.name] = new_ind
-
         return changed
 
     def existential_rule_2(self):
@@ -166,6 +167,7 @@ class ELReasoner:
                 if self.is_relevant(existential_concept):
                     if existential_concept not in ind.concepts:
                         ind.concepts.add(existential_concept)
+                        print("Added this concept to individual", ind_name, ":", existential_concept) if self.debug else None
                         changed = True
         return changed
 
@@ -185,13 +187,14 @@ class ELReasoner:
                         lhs = self.formatter.format(axiom.lhs())
                         rhs = self.formatter.format(axiom.rhs())
                         if lhs == c and self.is_relevant(rhs):
-                            new_concepts.add(rhs)  # Collect the new concept to add
+                            new_concepts.add(rhs)
                     except Exception:
                         continue
 
             # After the loop finishes, update the individual's concepts
             if new_concepts - ind.concepts:
                 self.individuals[ind_name].concepts.update(new_concepts)
+                print("Added these concepts to individual", ind_name, ":", new_concepts) if self.debug else None
                 changed = True
 
         return changed
@@ -226,6 +229,7 @@ class ELReasoner:
                             new_concepts.add(lhs)
                         if new_concepts - ind.concepts:
                             self.individuals[ind_name].concepts.update(new_concepts)
+                            print("Added these concepts to individual", ind_name, ":", new_concepts) if self.debug else None
                             changed = True
                 except Exception:
                     continue
