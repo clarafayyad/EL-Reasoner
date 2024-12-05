@@ -32,7 +32,7 @@ for number, test in test_cases.items():
     gateway.convertToBinaryConjunctions(ontology)
     formatter = gateway.getSimpleDLFormatter()
 
-    reasoner = ELReasoner(ontology, formatter)
+    reasoner = ELReasoner(ontology, formatter, debug=False)
     subsumers = reasoner.get_all_subsumers(test["class"])
 
     for expected_subsumer in test["expected_subsumers"]:

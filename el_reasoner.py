@@ -4,9 +4,12 @@ import re
 from individual import Individual
 from roles import Role
 
+
 def extract_relation_and_successor(expression):
-    # Regular expression to match ∃r.C
-    match = re.match(r"∃([\w]+)\.([\w]+)", expression)
+    # Remove double quotes if present
+    exp = expression.replace('"', '')
+    # Regular expression to match ∃r.C where r is the relation and C is the successor
+    match = re.match(r"∃([\w]+)\.(.+)", exp)
     if match:
         relation = match.group(1)
         successor = match.group(2)
@@ -21,6 +24,16 @@ class ELReasoner:
         self.individuals = {}  # Dictionary mapping individuals to their concepts and roles.
         self.relevant_concepts = self.extract_relevant_concepts()
         self.debug = debug
+        self.visualize_ontology()
+
+    def visualize_ontology(self):
+        if not self.debug:
+            return
+        axioms = self.ontology.tbox().getAxioms()
+        print("Ontlogy:")
+        for axiom in axioms:
+            print(self.formatter.format(axiom))
+        print()
 
     def initialize_individual(self, d0, C0):
         new_individual = Individual(d0)
@@ -34,8 +47,7 @@ class ELReasoner:
         # Gather all concepts from the TBox axioms (both LHS and RHS)
         for axiom in self.ontology.tbox().getAxioms():
             try:
-                lhs = self.formatter.format(axiom.lhs())
-                rhs = self.formatter.format(axiom.rhs())
+                lhs, rhs = self.extract_lhs_rhs_from_axiom(axiom)
                 relevant_concepts.add(lhs)
                 relevant_concepts.add(rhs)
             except Exception:
@@ -54,15 +66,21 @@ class ELReasoner:
         # Check for nested concepts in the TBox
         for axiom in self.ontology.tbox().getAxioms():
             try:
-                lhs = self.formatter.format(axiom.lhs())
-                rhs = self.formatter.format(axiom.rhs())
+                lhs, rhs = self.extract_lhs_rhs_from_axiom(axiom)
                 # Add nested concepts
                 extract_nested_concepts(lhs)
                 extract_nested_concepts(rhs)
             except Exception:
                 continue
 
-        return relevant_concepts
+        return [concept.replace('"', '') for concept in relevant_concepts]
+
+    def extract_lhs_rhs_from_axiom(self, axiom):
+        lhs = self.formatter.format(axiom.lhs())
+        clean_lhs = lhs.replace('"', '')
+        rhs = self.formatter.format(axiom.rhs())
+        clean_rhs = rhs.replace('"', '')
+        return clean_lhs.strip(), clean_rhs.strip()
 
     def is_relevant(self, concept):
         return concept in self.relevant_concepts
@@ -102,8 +120,9 @@ class ELReasoner:
                     left, right = expression.split('⊓', 1)
                     parts = [left.strip(), right.strip()]
                     for part in parts:
-                        if self.is_relevant(part):
-                            new_concepts.add(part)
+                        clean_part = part.replace('"', '')
+                        if self.is_relevant(part) or self.is_entailment(clean_part):
+                            new_concepts.add(clean_part)
             if new_concepts - ind.concepts:
                 self.individuals[ind_name].concepts.update(new_concepts)
                 print("Added these concepts to individual", ind_name, ":", new_concepts) if self.debug else None
@@ -117,10 +136,10 @@ class ELReasoner:
             concepts = ind.concepts
             for c1 in concepts:
                 for c2 in concepts:
-                    conjunction = ("and", frozenset({c1, c2}))
+                    conjunction = c1 + "⊓" + c2
                     if c1 != c2 and self.is_relevant(conjunction) and conjunction not in concepts:
                         self.individuals[ind_name].concepts.add(conjunction)
-                        print("Added this concepts to individual", ind_name, ":", conjunction) if self.debug else None
+                        print("Added this concept to individual", ind_name, ":", conjunction) if self.debug else None
                         changed = True
         return changed
 
@@ -140,7 +159,8 @@ class ELReasoner:
                             role = Role(relation, target_concept, e_name)
                             if not e_ind.has_role(role):
                                 e_ind.roles.add(role)
-                                print("Added this role to individual", ind_name, ":", role.__str__()) if self.debug else None
+                                print("Added this role to individual", ind_name, ":",
+                                      role.__str__()) if self.debug else None
                                 changed = True
                             break
                     else:
@@ -149,7 +169,8 @@ class ELReasoner:
                         new_ind_name = "d" + str(ind_count)
                         new_ind = Individual(new_ind_name)
                         new_ind.initial_concept = target_concept
-                        print("Created new individual", new_ind_name, "with initial concept", target_concept) if self.debug else None
+                        print("Created new individual", new_ind_name, "with initial concept",
+                              target_concept) if self.debug else None
                         new_ind.concepts.add(target_concept)
                         self.individuals[new_ind_name] = new_ind
                         role = Role(relation, target_concept, new_ind_name)
@@ -167,7 +188,8 @@ class ELReasoner:
                 if self.is_relevant(existential_concept):
                     if existential_concept not in ind.concepts:
                         ind.concepts.add(existential_concept)
-                        print("Added this concept to individual", ind_name, ":", existential_concept) if self.debug else None
+                        print("Added this concept to individual", ind_name, ":",
+                              existential_concept) if self.debug else None
                         changed = True
         return changed
 
@@ -184,8 +206,7 @@ class ELReasoner:
                     if axiom_type != "GeneralConceptInclusion":
                         continue
                     try:
-                        lhs = self.formatter.format(axiom.lhs())
-                        rhs = self.formatter.format(axiom.rhs())
+                        lhs, rhs = self.extract_lhs_rhs_from_axiom(axiom)
                         if lhs == c and self.is_relevant(rhs):
                             new_concepts.add(rhs)
                     except Exception:
@@ -206,8 +227,7 @@ class ELReasoner:
             axiom_type = axiom.getClass().getSimpleName()
             if axiom_type == "GeneralConceptInclusion" or axiom_type == "EquivalenceAxiom":
                 try:
-                    lhs = self.formatter.format(axiom.lhs())
-                    rhs = self.formatter.format(axiom.rhs())
+                    lhs, rhs = self.extract_lhs_rhs_from_axiom(axiom)
                     for ind_name, ind in self.individuals.items():
                         ind_concepts = ind.concepts
                         new_concepts = set()
@@ -220,8 +240,7 @@ class ELReasoner:
                     continue
             if axiom_type == "EquivalenceAxiom":
                 try:
-                    lhs = self.formatter.format(axiom.lhs())
-                    rhs = self.formatter.format(axiom.rhs())
+                    lhs, rhs = self.extract_lhs_rhs_from_axiom(axiom)
                     for ind_name, ind in self.individuals.items():
                         ind_concepts = ind.concepts
                         new_concepts = set()
@@ -229,7 +248,8 @@ class ELReasoner:
                             new_concepts.add(lhs)
                         if new_concepts - ind.concepts:
                             self.individuals[ind_name].concepts.update(new_concepts)
-                            print("Added these concepts to individual", ind_name, ":", new_concepts) if self.debug else None
+                            print("Added these concepts to individual", ind_name, ":",
+                                  new_concepts) if self.debug else None
                             changed = True
                 except Exception:
                     continue

@@ -11,8 +11,8 @@ def main():
     # ontology_file = sys.argv[1]
     # class_name = sys.argv[2]
 
-    ontology_file = "ontologies/amino-acid.amino-acid-ontology.2.owl.xml"
-    class_name = "Charge"
+    ontology_file = "pizza.owl"
+    class_name = "Margherita"
 
     try:
         gateway = JavaGateway()
@@ -20,7 +20,7 @@ def main():
         ontology = parser.parseFile(ontology_file)
         gateway.convertToBinaryConjunctions(ontology)
         formatter = gateway.getSimpleDLFormatter()
-        reasoner = ELReasoner(ontology, formatter)
+        reasoner = ELReasoner(ontology, formatter, debug=False)
         subsumers = reasoner.get_all_subsumers(class_name)
         print("Subsumers of " + class_name + " are: ")
         for subsumer in subsumers:
