@@ -76,11 +76,21 @@ class ELReasoner:
         return [concept.replace('"', '') for concept in relevant_concepts]
 
     def extract_lhs_rhs_from_axiom(self, axiom):
-        lhs = self.formatter.format(axiom.lhs())
-        clean_lhs = lhs.replace('"', '')
-        rhs = self.formatter.format(axiom.rhs())
-        clean_rhs = rhs.replace('"', '')
-        return clean_lhs.strip(), clean_rhs.strip()
+        try:
+            lhs = self.formatter.format(axiom.lhs())
+            clean_lhs = lhs.replace('"', '')
+            rhs = self.formatter.format(axiom.rhs())
+            clean_rhs = rhs.replace('"', '')
+            return clean_lhs.strip(), clean_rhs.strip()
+        except Exception:
+            operators = ["⊑", "≡", "<=", "="]
+            for op in operators:
+                if op in axiom.toString():
+                    lhs, rhs = axiom.toString().split(op, 1)
+                    clean_lhs = lhs.replace('"', '')
+                    clean_rhs = rhs.replace('"', '')
+                    return clean_lhs.strip(), clean_rhs.strip()
+
 
     def is_relevant(self, concept):
         return concept in self.relevant_concepts
@@ -115,13 +125,16 @@ class ELReasoner:
         new_concepts = set()
         for ind_name, ind in self.individuals.items():
             for concept in ind.concepts:
-                if '⊓' in concept:
+                if '⊓' in concept or ' n ' in concept:
+                    conjunction_op = '⊓'
+                    if ' n ' in concept:
+                        conjunction_op = ' n '
                     expression = concept.strip('()')
-                    left, right = expression.split('⊓', 1)
+                    left, right = expression.split(conjunction_op, 1)
                     parts = [left.strip(), right.strip()]
                     for part in parts:
                         clean_part = part.replace('"', '')
-                        if self.is_relevant(part) or self.is_entailment(clean_part):
+                        if self.is_relevant(part):
                             new_concepts.add(clean_part)
             if new_concepts - ind.concepts:
                 self.individuals[ind_name].concepts.update(new_concepts)
@@ -236,7 +249,7 @@ class ELReasoner:
                         if new_concepts - ind.concepts:
                             self.individuals[ind_name].concepts.update(new_concepts)
                             changed = True
-                except Exception:
+                except Exception as e:
                     continue
             if axiom_type == "EquivalenceAxiom":
                 try:
