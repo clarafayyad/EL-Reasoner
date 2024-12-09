@@ -91,7 +91,6 @@ class ELReasoner:
                     clean_rhs = rhs.replace('"', '')
                     return clean_lhs.strip(), clean_rhs.strip()
 
-
     def is_relevant(self, concept):
         return concept in self.relevant_concepts
 
@@ -126,6 +125,7 @@ class ELReasoner:
         for ind_name, ind in self.individuals.items():
             for concept in ind.concepts:
                 if '⊓' in concept or ' n ' in concept:
+                    print("Found conjunction: ", concept) if self.debug else None
                     conjunction_op = '⊓'
                     if ' n ' in concept:
                         conjunction_op = ' n '
@@ -151,6 +151,7 @@ class ELReasoner:
                 for c2 in concepts:
                     conjunction = c1 + "⊓" + c2
                     if c1 != c2 and self.is_relevant(conjunction) and conjunction not in concepts:
+                        print("Found 2 concepts: ", c1, c2) if self.debug else None
                         self.individuals[ind_name].concepts.add(conjunction)
                         print("Added this concept to individual", ind_name, ":", conjunction) if self.debug else None
                         changed = True
@@ -164,6 +165,7 @@ class ELReasoner:
             # For each individual, check if it has an existential concept ∃r.C
             for concept in ind.concepts:
                 if '∃' in concept and not '⊓' in concept:
+                    print("Found existential: ", concept) if self.debug else None
                     relation, target_concept = extract_relation_and_successor(concept)
                     # Look for an individual with the target concept as initial concept
                     for e_name, e_ind in self.individuals.items():
@@ -209,6 +211,7 @@ class ELReasoner:
     def concept_inclusion_rule(self):
         # If d has C assigned and C ⊑ D, then also assign D to d
         changed = False
+        found_existential = False
         for ind_name, ind in self.individuals.items():
             ind_concepts = ind.concepts
             new_concepts = set()  # Set to collect new concepts to add
@@ -219,6 +222,7 @@ class ELReasoner:
                     if axiom_type != "GeneralConceptInclusion":
                         continue
                     try:
+                        print("Found GCI: ", axiom.toString()) if self.debug else None
                         lhs, rhs = self.extract_lhs_rhs_from_axiom(axiom)
                         if lhs == c and self.is_relevant(rhs):
                             new_concepts.add(rhs)
@@ -227,10 +231,15 @@ class ELReasoner:
 
             # After the loop finishes, update the individual's concepts
             if new_concepts - ind.concepts:
-                self.individuals[ind_name].concepts.update(new_concepts)
-                print("Added these concepts to individual", ind_name, ":", new_concepts) if self.debug else None
-                changed = True
+                for new_concept in new_concepts:
+                    self.individuals[ind_name].concepts.add(new_concept)
+                    print("Added this concept to individual", ind_name, ":", new_concepts) if self.debug else None
+                    if '∃' in new_concept:
+                        found_existential = True
+                    changed = True
 
+        if found_existential:
+            self.existential_rule_1()
         return changed
 
     def process_t_box(self):
@@ -239,6 +248,7 @@ class ELReasoner:
         for axiom in axioms:
             axiom_type = axiom.getClass().getSimpleName()
             if axiom_type == "GeneralConceptInclusion" or axiom_type == "EquivalenceAxiom":
+                print("Found GCI or equivalence: ", axiom.toString()) if self.debug else None
                 try:
                     lhs, rhs = self.extract_lhs_rhs_from_axiom(axiom)
                     for ind_name, ind in self.individuals.items():
@@ -249,9 +259,11 @@ class ELReasoner:
                         if new_concepts - ind.concepts:
                             self.individuals[ind_name].concepts.update(new_concepts)
                             changed = True
+                        # @TODO: if B <= C, and ind d has role ∃r.B, we should add ∃r.C to it (if relevant)
                 except Exception as e:
                     continue
             if axiom_type == "EquivalenceAxiom":
+                print("Found equivalence: ", axiom.toString()) if self.debug else None
                 try:
                     lhs, rhs = self.extract_lhs_rhs_from_axiom(axiom)
                     for ind_name, ind in self.individuals.items():
@@ -272,4 +284,11 @@ class ELReasoner:
         d0 = "d0"
         self.initialize_individual(d0, concept_name)
         self.run_completion()
-        return self.individuals[d0].concepts
+        return self.clean_concepts(self.individuals[d0].concepts)
+
+    def clean_concepts(self, concepts):
+        cleaned_concepts = set()
+        for concept in concepts:
+            if concept[0] not in ['∃', '⊤']:
+                cleaned_concepts.add(concept)
+        return cleaned_concepts

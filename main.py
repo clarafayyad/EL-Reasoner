@@ -11,8 +11,8 @@ def main():
     # ontology_file = sys.argv[1]
     # class_name = sys.argv[2]
 
-    ontology_file = "SmoothiesV2.owl"
-    class_name = "ProteinSmoothie"
+    ontology_file = "KR2024-Project-DL-Dummy-Evaluator/TestData/exampleTest.owl"
+    class_name = "A"
 
     try:
         gateway = JavaGateway()
@@ -22,7 +22,7 @@ def main():
         formatter = gateway.getSimpleDLFormatter()
         reasoner = ELReasoner(ontology, formatter, debug=True)
         subsumers = reasoner.get_all_subsumers(class_name)
-        print("Subsumers of " + class_name + " are: ")
+        print("\nSubsumers of " + class_name + " are: ")
         for subsumer in subsumers:
             print(subsumer)
 
