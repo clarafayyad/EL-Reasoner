@@ -216,7 +216,6 @@ class ELReasoner:
     def concept_inclusion_rule(self):
         # If d has C assigned and C ⊑ D, then also assign D to d
         changed = False
-        found_existential = False
         for ind_name, ind in self.individuals.items():
             ind_concepts = ind.concepts
             new_concepts = set()  # Set to collect new concepts to add
@@ -227,7 +226,7 @@ class ELReasoner:
                     if axiom_type != "GeneralConceptInclusion":
                         continue
                     try:
-                        print("Found GCI: ", axiom.toString()) if self.debug else None
+                        # print("Found GCI: ", axiom.toString()) if self.debug else None
                         lhs, rhs = self.extract_lhs_rhs_from_axiom(axiom)
                         if lhs == c and self.is_relevant(rhs):
                             new_concepts.add(rhs)
@@ -248,7 +247,7 @@ class ELReasoner:
         for axiom in axioms:
             axiom_type = axiom.getClass().getSimpleName()
             if axiom_type == "GeneralConceptInclusion" or axiom_type == "EquivalenceAxiom":
-                print("Found GCI or equivalence: ", axiom.toString()) if self.debug else None
+                # print("Found GCI or equivalence: ", axiom.toString()) if self.debug else None
                 try:
                     lhs, rhs = self.extract_lhs_rhs_from_axiom(axiom)
                     for ind_name, ind in self.individuals.items():
@@ -262,7 +261,7 @@ class ELReasoner:
                 except Exception as e:
                     continue
             if axiom_type == "EquivalenceAxiom":
-                print("Found equivalence: ", axiom.toString()) if self.debug else None
+                # print("Found equivalence: ", axiom.toString()) if self.debug else None
                 try:
                     lhs, rhs = self.extract_lhs_rhs_from_axiom(axiom)
                     for ind_name, ind in self.individuals.items():
@@ -288,6 +287,6 @@ class ELReasoner:
     def clean_concepts(self, concepts):
         cleaned_concepts = set()
         for concept in concepts:
-            if concept[0] not in ['∃', '⊤']:
+            if concept[0] not in ['⊤', '⩾', '⩽', '(']:
                 cleaned_concepts.add(concept)
         return cleaned_concepts
