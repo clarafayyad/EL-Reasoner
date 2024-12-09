@@ -1,0 +1,1293 @@
+<?xml version="1.0"?>
+<rdf:RDF xmlns="http://www.example.org/smoothie#"
+     xml:base="http://www.example.org/smoothie"
+     xmlns:owl="http://www.w3.org/2002/07/owl#"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:www="http://www.smoothie.com#"
+     xmlns:xml="http://www.w3.org/XML/1998/namespace"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#">
+    <owl:Ontology rdf:about="http://www.smoothie.com">
+        <rdfs:comment>A smoothie ontology that describes various smoothies based on thier ingridients.</rdfs:comment>
+    </owl:Ontology>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Object Properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.smoothie.com#HasLiquidBase -->
+
+    <owl:ObjectProperty rdf:about="http://www.smoothie.com#HasLiquidBase">
+        <rdfs:subPropertyOf rdf:resource="http://www.smoothie.com#hasIngredient"/>
+        <owl:inverseOf rdf:resource="http://www.smoothie.com#LiquidBaseIsUsedIn"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#AsymmetricProperty"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#IrreflexiveProperty"/>
+        <rdfs:domain rdf:resource="http://www.smoothie.com#Smoothie"/>
+        <rdfs:range rdf:resource="http://www.smoothie.com#LiquidBase"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.smoothie.com#HasPrimaryIngredient -->
+
+    <owl:ObjectProperty rdf:about="http://www.smoothie.com#HasPrimaryIngredient">
+        <rdfs:subPropertyOf rdf:resource="http://www.smoothie.com#hasIngredient"/>
+        <owl:inverseOf rdf:resource="http://www.smoothie.com#PrimaryIngredientIsUsedIn"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#AsymmetricProperty"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#IrreflexiveProperty"/>
+        <rdfs:domain rdf:resource="http://www.smoothie.com#Smoothie"/>
+        <rdfs:range rdf:resource="http://www.smoothie.com#PrimaryIngredient"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.smoothie.com#HasProtein -->
+
+    <owl:ObjectProperty rdf:about="http://www.smoothie.com#HasProtein">
+        <rdfs:subPropertyOf rdf:resource="http://www.smoothie.com#HasSecondaryIngredient"/>
+        <owl:inverseOf rdf:resource="http://www.smoothie.com#ProteinUsedIn"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#AsymmetricProperty"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#IrreflexiveProperty"/>
+        <rdfs:domain rdf:resource="http://www.smoothie.com#Smoothie"/>
+        <rdfs:range rdf:resource="http://www.smoothie.com#Protein"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.smoothie.com#HasSecondaryIngredient -->
+
+    <owl:ObjectProperty rdf:about="http://www.smoothie.com#HasSecondaryIngredient">
+        <rdfs:subPropertyOf rdf:resource="http://www.smoothie.com#hasIngredient"/>
+        <owl:inverseOf rdf:resource="http://www.smoothie.com#SecondaryIngredientUsedIn"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#AsymmetricProperty"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#IrreflexiveProperty"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.smoothie.com#HasSuperfood -->
+
+    <owl:ObjectProperty rdf:about="http://www.smoothie.com#HasSuperfood">
+        <rdfs:subPropertyOf rdf:resource="http://www.smoothie.com#HasSecondaryIngredient"/>
+        <owl:inverseOf rdf:resource="http://www.smoothie.com#SuperfoodUsedIn"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#AsymmetricProperty"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#IrreflexiveProperty"/>
+        <rdfs:domain rdf:resource="http://www.smoothie.com#Smoothie"/>
+        <rdfs:range rdf:resource="http://www.smoothie.com#Superfood"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.smoothie.com#HasSweetener -->
+
+    <owl:ObjectProperty rdf:about="http://www.smoothie.com#HasSweetener">
+        <rdfs:subPropertyOf rdf:resource="http://www.smoothie.com#HasSecondaryIngredient"/>
+        <owl:inverseOf rdf:resource="http://www.smoothie.com#SweetenerUsedIn"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#AsymmetricProperty"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#IrreflexiveProperty"/>
+        <rdfs:domain rdf:resource="http://www.smoothie.com#Smoothie"/>
+        <rdfs:range rdf:resource="http://www.smoothie.com#Sweetener"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.smoothie.com#HasTopping -->
+
+    <owl:ObjectProperty rdf:about="http://www.smoothie.com#HasTopping">
+        <rdfs:subPropertyOf rdf:resource="http://www.smoothie.com#HasSecondaryIngredient"/>
+        <owl:inverseOf rdf:resource="http://www.smoothie.com#ToppingUsedIn"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#AsymmetricProperty"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#IrreflexiveProperty"/>
+        <rdfs:domain rdf:resource="http://www.smoothie.com#Smoothie"/>
+        <rdfs:range rdf:resource="http://www.smoothie.com#Topping"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.smoothie.com#IngredientIsUsedIn -->
+
+    <owl:ObjectProperty rdf:about="http://www.smoothie.com#IngredientIsUsedIn">
+        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topObjectProperty"/>
+        <owl:inverseOf rdf:resource="http://www.smoothie.com#hasIngredient"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#AsymmetricProperty"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#IrreflexiveProperty"/>
+        <rdfs:domain rdf:resource="http://www.smoothie.com#Ingredient"/>
+        <rdfs:range rdf:resource="http://www.smoothie.com#Smoothie"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.smoothie.com#LiquidBaseIsUsedIn -->
+
+    <owl:ObjectProperty rdf:about="http://www.smoothie.com#LiquidBaseIsUsedIn">
+        <rdfs:subPropertyOf rdf:resource="http://www.smoothie.com#IngredientIsUsedIn"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#AsymmetricProperty"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#IrreflexiveProperty"/>
+        <rdfs:domain rdf:resource="http://www.smoothie.com#LiquidBase"/>
+        <rdfs:range rdf:resource="http://www.smoothie.com#Smoothie"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.smoothie.com#PrimaryIngredientIsUsedIn -->
+
+    <owl:ObjectProperty rdf:about="http://www.smoothie.com#PrimaryIngredientIsUsedIn">
+        <rdfs:subPropertyOf rdf:resource="http://www.smoothie.com#IngredientIsUsedIn"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#AsymmetricProperty"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#IrreflexiveProperty"/>
+        <rdfs:domain rdf:resource="http://www.smoothie.com#PrimaryIngredient"/>
+        <rdfs:range rdf:resource="http://www.smoothie.com#Smoothie"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.smoothie.com#ProteinUsedIn -->
+
+    <owl:ObjectProperty rdf:about="http://www.smoothie.com#ProteinUsedIn">
+        <rdfs:subPropertyOf rdf:resource="http://www.smoothie.com#SecondaryIngredientUsedIn"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#AsymmetricProperty"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#IrreflexiveProperty"/>
+        <rdfs:domain rdf:resource="http://www.smoothie.com#Protein"/>
+        <rdfs:range rdf:resource="http://www.smoothie.com#Smoothie"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.smoothie.com#SecondaryIngredientUsedIn -->
+
+    <owl:ObjectProperty rdf:about="http://www.smoothie.com#SecondaryIngredientUsedIn">
+        <rdfs:subPropertyOf rdf:resource="http://www.smoothie.com#IngredientIsUsedIn"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#AsymmetricProperty"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#IrreflexiveProperty"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.smoothie.com#SuperfoodUsedIn -->
+
+    <owl:ObjectProperty rdf:about="http://www.smoothie.com#SuperfoodUsedIn">
+        <rdfs:subPropertyOf rdf:resource="http://www.smoothie.com#SecondaryIngredientUsedIn"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#AsymmetricProperty"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#IrreflexiveProperty"/>
+        <rdfs:domain rdf:resource="http://www.smoothie.com#Superfood"/>
+        <rdfs:range rdf:resource="http://www.smoothie.com#Smoothie"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.smoothie.com#SweetenerUsedIn -->
+
+    <owl:ObjectProperty rdf:about="http://www.smoothie.com#SweetenerUsedIn">
+        <rdfs:subPropertyOf rdf:resource="http://www.smoothie.com#SecondaryIngredientUsedIn"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#AsymmetricProperty"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#IrreflexiveProperty"/>
+        <rdfs:domain rdf:resource="http://www.smoothie.com#Sweetener"/>
+        <rdfs:range rdf:resource="http://www.smoothie.com#Smoothie"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.smoothie.com#ToppingUsedIn -->
+
+    <owl:ObjectProperty rdf:about="http://www.smoothie.com#ToppingUsedIn">
+        <rdfs:subPropertyOf rdf:resource="http://www.smoothie.com#SecondaryIngredientUsedIn"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#AsymmetricProperty"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#IrreflexiveProperty"/>
+        <rdfs:domain rdf:resource="http://www.smoothie.com#Topping"/>
+        <rdfs:range rdf:resource="http://www.smoothie.com#Smoothie"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.smoothie.com#hasIngredient -->
+
+    <owl:ObjectProperty rdf:about="http://www.smoothie.com#hasIngredient">
+        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topObjectProperty"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#AsymmetricProperty"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#IrreflexiveProperty"/>
+        <rdfs:domain rdf:resource="http://www.smoothie.com#Smoothie"/>
+        <rdfs:range rdf:resource="http://www.smoothie.com#Ingredient"/>
+        <owl:propertyChainAxiom rdf:parseType="Collection">
+            <rdf:Description rdf:about="http://www.smoothie.com#HasProtein"/>
+        </owl:propertyChainAxiom>
+        <owl:propertyChainAxiom rdf:parseType="Collection">
+            <rdf:Description rdf:about="http://www.smoothie.com#HasSuperfood"/>
+        </owl:propertyChainAxiom>
+        <owl:propertyChainAxiom rdf:parseType="Collection">
+            <rdf:Description rdf:about="http://www.smoothie.com#HasSweetener"/>
+        </owl:propertyChainAxiom>
+        <owl:propertyChainAxiom rdf:parseType="Collection">
+            <rdf:Description rdf:about="http://www.smoothie.com#HasTopping"/>
+        </owl:propertyChainAxiom>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Classes
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.smoothie.com#Alergens -->
+
+    <owl:Class rdf:about="http://www.smoothie.com#Alergens"/>
+    
+
+
+    <!-- http://www.smoothie.com#Berries -->
+
+    <owl:Class rdf:about="http://www.smoothie.com#Berries">
+        <rdfs:subClassOf rdf:resource="http://www.smoothie.com#Fruits"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.smoothie.com#Berry -->
+
+    <owl:Class rdf:about="http://www.smoothie.com#Berry">
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="http://www.smoothie.com#Smoothie"/>
+                    <owl:Class>
+                        <owl:intersectionOf rdf:parseType="Collection">
+                            <owl:Restriction>
+                                <owl:onProperty rdf:resource="http://www.smoothie.com#HasPrimaryIngredient"/>
+                                <owl:hasValue rdf:resource="http://www.smoothie.com#Black_Berries"/>
+                            </owl:Restriction>
+                            <owl:Restriction>
+                                <owl:onProperty rdf:resource="http://www.smoothie.com#HasPrimaryIngredient"/>
+                                <owl:hasValue rdf:resource="http://www.smoothie.com#Red_Berries"/>
+                            </owl:Restriction>
+                        </owl:intersectionOf>
+                    </owl:Class>
+                </owl:intersectionOf>
+            </owl:Class>
+        </owl:equivalentClass>
+        <rdfs:subClassOf rdf:resource="http://www.smoothie.com#TasteProfile"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.smoothie.com#Berry_Delight -->
+
+    <owl:Class rdf:about="http://www.smoothie.com#Berry_Delight">
+        <rdfs:subClassOf rdf:resource="http://www.smoothie.com#NamedSmoothie"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://www.smoothie.com#HasLiquidBase"/>
+                <owl:hasValue rdf:resource="http://www.smoothie.com#Cow_Milk"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://www.smoothie.com#HasPrimaryIngredient"/>
+                <owl:hasValue rdf:resource="http://www.smoothie.com#Black_Berries"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://www.smoothie.com#HasPrimaryIngredient"/>
+                <owl:hasValue rdf:resource="http://www.smoothie.com#Red_Berries"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://www.smoothie.com#HasSweetener"/>
+                <owl:hasValue rdf:resource="http://www.smoothie.com#Sugar"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://www.smoothie.com#Creamy -->
+
+    <owl:Class rdf:about="http://www.smoothie.com#Creamy">
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="http://www.smoothie.com#Smoothie"/>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="http://www.smoothie.com#HasLiquidBase"/>
+                        <owl:hasValue rdf:resource="http://www.smoothie.com#Yogurt"/>
+                    </owl:Restriction>
+                </owl:intersectionOf>
+            </owl:Class>
+        </owl:equivalentClass>
+        <rdfs:subClassOf rdf:resource="http://www.smoothie.com#TasteProfile"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.smoothie.com#CustomerPreference -->
+
+    <owl:Class rdf:about="http://www.smoothie.com#CustomerPreference"/>
+    
+
+
+    <!-- http://www.smoothie.com#DairyIngredient -->
+
+    <owl:Class rdf:about="http://www.smoothie.com#DairyIngredient">
+        <rdfs:subClassOf rdf:resource="http://www.smoothie.com#NonVeganIngredient"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.smoothie.com#Fruits -->
+
+    <owl:Class rdf:about="http://www.smoothie.com#Fruits">
+        <rdfs:subClassOf rdf:resource="http://www.smoothie.com#PrimaryIngredient"/>
+        <rdfs:subClassOf rdf:resource="http://www.smoothie.com#VeganIngredient"/>
+        <owl:disjointWith rdf:resource="http://www.smoothie.com#Protein"/>
+        <owl:disjointWith rdf:resource="http://www.smoothie.com#Vegetables"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.smoothie.com#Golden_Morning -->
+
+    <owl:Class rdf:about="http://www.smoothie.com#Golden_Morning">
+        <rdfs:subClassOf rdf:resource="http://www.smoothie.com#NamedSmoothie"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://www.smoothie.com#HasLiquidBase"/>
+                <owl:hasValue rdf:resource="http://www.smoothie.com#Yogurt"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://www.smoothie.com#HasPrimaryIngredient"/>
+                <owl:hasValue rdf:resource="http://www.smoothie.com#Mango"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://www.smoothie.com#HasProtein"/>
+                <owl:hasValue rdf:resource="http://www.smoothie.com#Tofu"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://www.smoothie.com#HasSuperfood"/>
+                <owl:hasValue rdf:resource="http://www.smoothie.com#Chia_Seeds"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://www.smoothie.com#HasSweetener"/>
+                <owl:hasValue rdf:resource="http://www.smoothie.com#Honey"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://www.smoothie.com#HasTopping"/>
+                <owl:hasValue rdf:resource="http://www.smoothie.com#Edible_Flowers"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://www.smoothie.com#HighFiber -->
+
+    <owl:Class rdf:about="http://www.smoothie.com#HighFiber">
+        <rdfs:subClassOf rdf:resource="http://www.smoothie.com#CustomerPreference"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.smoothie.com#HighProtein -->
+
+    <owl:Class rdf:about="http://www.smoothie.com#HighProtein">
+        <rdfs:subClassOf rdf:resource="http://www.smoothie.com#CustomerPreference"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.smoothie.com#Ingredient -->
+
+    <owl:Class rdf:about="http://www.smoothie.com#Ingredient">
+        <owl:disjointUnionOf rdf:parseType="Collection">
+            <rdf:Description rdf:about="http://www.smoothie.com#NonVeganIngredient"/>
+            <rdf:Description rdf:about="http://www.smoothie.com#VeganIngredient"/>
+        </owl:disjointUnionOf>
+    </owl:Class>
+    
+
+
+    <!-- http://www.smoothie.com#Lactose -->
+
+    <owl:Class rdf:about="http://www.smoothie.com#Lactose">
+        <rdfs:subClassOf rdf:resource="http://www.smoothie.com#Alergens"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.smoothie.com#Lactose_Free -->
+
+    <owl:Class rdf:about="http://www.smoothie.com#Lactose_Free">
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="http://www.smoothie.com#Smoothie"/>
+                    <owl:Class>
+                        <owl:complementOf>
+                            <owl:Restriction>
+                                <owl:onProperty rdf:resource="http://www.smoothie.com#hasIngredient"/>
+                                <owl:someValuesFrom>
+                                    <owl:Class>
+                                        <owl:intersectionOf rdf:parseType="Collection">
+                                            <rdf:Description rdf:about="http://www.smoothie.com#Ingredient"/>
+                                            <rdf:Description rdf:about="http://www.smoothie.com#Lactose"/>
+                                        </owl:intersectionOf>
+                                    </owl:Class>
+                                </owl:someValuesFrom>
+                            </owl:Restriction>
+                        </owl:complementOf>
+                    </owl:Class>
+                </owl:intersectionOf>
+            </owl:Class>
+        </owl:equivalentClass>
+        <rdfs:subClassOf rdf:resource="http://www.smoothie.com#Smoothie"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.smoothie.com#LiquidBase -->
+
+    <owl:Class rdf:about="http://www.smoothie.com#LiquidBase">
+        <rdfs:subClassOf rdf:resource="http://www.smoothie.com#Ingredient"/>
+        <owl:disjointWith rdf:resource="http://www.smoothie.com#PrimaryIngredient"/>
+        <owl:disjointWith rdf:resource="http://www.smoothie.com#Protein"/>
+        <owl:disjointWith rdf:resource="http://www.smoothie.com#Sweetener"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.smoothie.com#LowCalorie -->
+
+    <owl:Class rdf:about="http://www.smoothie.com#LowCalorie">
+        <rdfs:subClassOf rdf:resource="http://www.smoothie.com#CustomerPreference"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.smoothie.com#NamedSmoothie -->
+
+    <owl:Class rdf:about="http://www.smoothie.com#NamedSmoothie">
+        <rdfs:subClassOf rdf:resource="http://www.smoothie.com#Smoothie"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.smoothie.com#NonVegan -->
+
+    <owl:Class rdf:about="http://www.smoothie.com#NonVegan">
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="http://www.smoothie.com#Smoothie"/>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="http://www.smoothie.com#HasSweetener"/>
+                        <owl:someValuesFrom rdf:resource="http://www.smoothie.com#NonVeganIngredient"/>
+                    </owl:Restriction>
+                </owl:intersectionOf>
+            </owl:Class>
+        </owl:equivalentClass>
+        <owl:disjointWith rdf:resource="http://www.smoothie.com#Vegan"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.smoothie.com#NonVeganIngredient -->
+
+    <owl:Class rdf:about="http://www.smoothie.com#NonVeganIngredient">
+        <rdfs:subClassOf rdf:resource="http://www.smoothie.com#Ingredient"/>
+        <owl:disjointWith rdf:resource="http://www.smoothie.com#VeganIngredient"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.smoothie.com#Nuts -->
+
+    <owl:Class rdf:about="http://www.smoothie.com#Nuts">
+        <rdfs:subClassOf rdf:resource="http://www.smoothie.com#Alergens"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.smoothie.com#PrimaryIngredient -->
+
+    <owl:Class rdf:about="http://www.smoothie.com#PrimaryIngredient">
+        <rdfs:subClassOf rdf:resource="http://www.smoothie.com#Ingredient"/>
+        <owl:disjointWith rdf:resource="http://www.smoothie.com#Sweetener"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.smoothie.com#Protein -->
+
+    <owl:Class rdf:about="http://www.smoothie.com#Protein">
+        <rdfs:subClassOf rdf:resource="http://www.smoothie.com#SecondaryIngredient"/>
+        <owl:disjointWith rdf:resource="http://www.smoothie.com#Sweetener"/>
+        <owl:disjointWith rdf:resource="http://www.smoothie.com#Vegetables"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.smoothie.com#Protein_Rich -->
+
+    <owl:Class rdf:about="http://www.smoothie.com#Protein_Rich">
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="http://www.smoothie.com#Smoothie"/>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="http://www.smoothie.com#HasProtein"/>
+                        <owl:someValuesFrom rdf:resource="http://www.smoothie.com#Protein"/>
+                    </owl:Restriction>
+                </owl:intersectionOf>
+            </owl:Class>
+        </owl:equivalentClass>
+        <rdfs:subClassOf rdf:resource="http://www.smoothie.com#Smoothie"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.smoothie.com#Refreshing -->
+
+    <owl:Class rdf:about="http://www.smoothie.com#Refreshing">
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="http://www.smoothie.com#Smoothie"/>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="http://www.smoothie.com#HasPrimaryIngredient"/>
+                        <owl:someValuesFrom rdf:resource="http://www.smoothie.com#Vegetables"/>
+                    </owl:Restriction>
+                </owl:intersectionOf>
+            </owl:Class>
+        </owl:equivalentClass>
+        <rdfs:subClassOf rdf:resource="http://www.smoothie.com#TasteProfile"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.smoothie.com#SecondaryIngredient -->
+
+    <owl:Class rdf:about="http://www.smoothie.com#SecondaryIngredient">
+        <rdfs:subClassOf rdf:resource="http://www.smoothie.com#Ingredient"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.smoothie.com#Smoothie -->
+
+    <owl:Class rdf:about="http://www.smoothie.com#Smoothie">
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://www.smoothie.com#HasPrimaryIngredient"/>
+                <owl:minQualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:minQualifiedCardinality>
+                <owl:onClass rdf:resource="http://www.smoothie.com#PrimaryIngredient"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://www.smoothie.com#HasLiquidBase"/>
+                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onClass rdf:resource="http://www.smoothie.com#LiquidBase"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://www.smoothie.com#Soy -->
+
+    <owl:Class rdf:about="http://www.smoothie.com#Soy">
+        <rdfs:subClassOf rdf:resource="http://www.smoothie.com#Alergens"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.smoothie.com#Superfood -->
+
+    <owl:Class rdf:about="http://www.smoothie.com#Superfood">
+        <rdfs:subClassOf rdf:resource="http://www.smoothie.com#SecondaryIngredient"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.smoothie.com#SupremeSmoothie -->
+
+    <owl:Class rdf:about="http://www.smoothie.com#SupremeSmoothie">
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="http://www.smoothie.com#Smoothie"/>
+                    <owl:Class>
+                        <owl:intersectionOf rdf:parseType="Collection">
+                            <owl:Restriction>
+                                <owl:onProperty rdf:resource="http://www.smoothie.com#HasSecondaryIngredient"/>
+                                <owl:someValuesFrom rdf:resource="http://www.smoothie.com#Protein"/>
+                            </owl:Restriction>
+                            <owl:Restriction>
+                                <owl:onProperty rdf:resource="http://www.smoothie.com#HasSecondaryIngredient"/>
+                                <owl:someValuesFrom rdf:resource="http://www.smoothie.com#Superfood"/>
+                            </owl:Restriction>
+                            <owl:Restriction>
+                                <owl:onProperty rdf:resource="http://www.smoothie.com#HasSecondaryIngredient"/>
+                                <owl:someValuesFrom rdf:resource="http://www.smoothie.com#Sweetener"/>
+                            </owl:Restriction>
+                            <owl:Restriction>
+                                <owl:onProperty rdf:resource="http://www.smoothie.com#HasSecondaryIngredient"/>
+                                <owl:someValuesFrom rdf:resource="http://www.smoothie.com#Topping"/>
+                            </owl:Restriction>
+                        </owl:intersectionOf>
+                    </owl:Class>
+                </owl:intersectionOf>
+            </owl:Class>
+        </owl:equivalentClass>
+        <rdfs:subClassOf rdf:resource="http://www.smoothie.com#Smoothie"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.smoothie.com#Sweet -->
+
+    <owl:Class rdf:about="http://www.smoothie.com#Sweet">
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="http://www.smoothie.com#Smoothie"/>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="http://www.smoothie.com#HasSweetener"/>
+                        <owl:someValuesFrom rdf:resource="http://www.smoothie.com#Sweetener"/>
+                    </owl:Restriction>
+                </owl:intersectionOf>
+            </owl:Class>
+        </owl:equivalentClass>
+        <rdfs:subClassOf rdf:resource="http://www.smoothie.com#TasteProfile"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.smoothie.com#Sweetener -->
+
+    <owl:Class rdf:about="http://www.smoothie.com#Sweetener">
+        <rdfs:subClassOf rdf:resource="http://www.smoothie.com#SecondaryIngredient"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.smoothie.com#TasteProfile -->
+
+    <owl:Class rdf:about="http://www.smoothie.com#TasteProfile"/>
+    
+
+
+    <!-- http://www.smoothie.com#The_Big_Boss -->
+
+    <owl:Class rdf:about="http://www.smoothie.com#The_Big_Boss">
+        <rdfs:subClassOf rdf:resource="http://www.smoothie.com#NamedSmoothie"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://www.smoothie.com#HasLiquidBase"/>
+                <owl:hasValue rdf:resource="http://www.smoothie.com#Cow_Milk"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://www.smoothie.com#HasPrimaryIngredient"/>
+                <owl:hasValue rdf:resource="http://www.smoothie.com#Avocado"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://www.smoothie.com#HasPrimaryIngredient"/>
+                <owl:hasValue rdf:resource="http://www.smoothie.com#Celery"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://www.smoothie.com#HasPrimaryIngredient"/>
+                <owl:hasValue rdf:resource="http://www.smoothie.com#Kale"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://www.smoothie.com#HasProtein"/>
+                <owl:hasValue rdf:resource="http://www.smoothie.com#Kwark"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://www.smoothie.com#HasProtein"/>
+                <owl:hasValue rdf:resource="http://www.smoothie.com#Tofu"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://www.smoothie.com#HasSuperfood"/>
+                <owl:hasValue rdf:resource="http://www.smoothie.com#Flax_Seeds"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://www.smoothie.com#HasSuperfood"/>
+                <owl:hasValue rdf:resource="http://www.smoothie.com#Matcha"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://www.smoothie.com#HasSweetener"/>
+                <owl:hasValue rdf:resource="http://www.smoothie.com#Agave"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://www.smoothie.com#HasSweetener"/>
+                <owl:hasValue rdf:resource="http://www.smoothie.com#Honey"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://www.smoothie.com#HasTopping"/>
+                <owl:hasValue rdf:resource="http://www.smoothie.com#Coconut_Chips"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://www.smoothie.com#HasTopping"/>
+                <owl:hasValue rdf:resource="http://www.smoothie.com#Edible_Flowers"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://www.smoothie.com#Topping -->
+
+    <owl:Class rdf:about="http://www.smoothie.com#Topping">
+        <rdfs:subClassOf rdf:resource="http://www.smoothie.com#SecondaryIngredient"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.smoothie.com#Vegan -->
+
+    <owl:Class rdf:about="http://www.smoothie.com#Vegan">
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="http://www.smoothie.com#Smoothie"/>
+                    <owl:Class>
+                        <owl:complementOf>
+                            <owl:Restriction>
+                                <owl:onProperty rdf:resource="http://www.smoothie.com#hasIngredient"/>
+                                <owl:someValuesFrom rdf:resource="http://www.smoothie.com#NonVeganIngredient"/>
+                            </owl:Restriction>
+                        </owl:complementOf>
+                    </owl:Class>
+                </owl:intersectionOf>
+            </owl:Class>
+        </owl:equivalentClass>
+        <rdfs:subClassOf rdf:resource="http://www.smoothie.com#TasteProfile"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.smoothie.com#VeganIngredient -->
+
+    <owl:Class rdf:about="http://www.smoothie.com#VeganIngredient">
+        <rdfs:subClassOf rdf:resource="http://www.smoothie.com#Ingredient"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.smoothie.com#Vegan_Delight -->
+
+    <owl:Class rdf:about="http://www.smoothie.com#Vegan_Delight">
+        <rdfs:subClassOf rdf:resource="http://www.smoothie.com#NamedSmoothie"/>
+        <rdfs:subClassOf rdf:resource="http://www.smoothie.com#Vegan"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://www.smoothie.com#HasLiquidBase"/>
+                <owl:hasValue rdf:resource="http://www.smoothie.com#Almond_Milk"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://www.smoothie.com#HasPrimaryIngredient"/>
+                <owl:hasValue rdf:resource="http://www.smoothie.com#Banana"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://www.smoothie.com#HasPrimaryIngredient"/>
+                <owl:hasValue rdf:resource="http://www.smoothie.com#Mango"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://www.smoothie.com#HasPrimaryIngredient"/>
+                <owl:hasValue rdf:resource="http://www.smoothie.com#Strawberry"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://www.smoothie.com#HasSweetener"/>
+                <owl:hasValue rdf:resource="http://www.smoothie.com#Sugar"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://www.smoothie.com#Vegan_Gym_Goer -->
+
+    <owl:Class rdf:about="http://www.smoothie.com#Vegan_Gym_Goer">
+        <rdfs:subClassOf rdf:resource="http://www.smoothie.com#NamedSmoothie"/>
+        <rdfs:subClassOf rdf:resource="http://www.smoothie.com#Vegan"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://www.smoothie.com#HasLiquidBase"/>
+                <owl:hasValue rdf:resource="http://www.smoothie.com#Soy_Milk"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://www.smoothie.com#HasPrimaryIngredient"/>
+                <owl:hasValue rdf:resource="http://www.smoothie.com#Banana"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://www.smoothie.com#HasPrimaryIngredient"/>
+                <owl:hasValue rdf:resource="http://www.smoothie.com#Spinach"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://www.smoothie.com#HasPrimaryIngredient"/>
+                <owl:hasValue rdf:resource="http://www.smoothie.com#Strawberry"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://www.smoothie.com#HasProtein"/>
+                <owl:hasValue rdf:resource="http://www.smoothie.com#Tofu"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://www.smoothie.com#Vegetables -->
+
+    <owl:Class rdf:about="http://www.smoothie.com#Vegetables">
+        <rdfs:subClassOf rdf:resource="http://www.smoothie.com#PrimaryIngredient"/>
+        <rdfs:subClassOf rdf:resource="http://www.smoothie.com#VeganIngredient"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.smoothie.com#We_Love_Gym -->
+
+    <owl:Class rdf:about="http://www.smoothie.com#We_Love_Gym">
+        <rdfs:subClassOf rdf:resource="http://www.smoothie.com#NamedSmoothie"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://www.smoothie.com#HasLiquidBase"/>
+                <owl:hasValue rdf:resource="http://www.smoothie.com#Cow_Milk"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://www.smoothie.com#HasPrimaryIngredient"/>
+                <owl:hasValue rdf:resource="http://www.smoothie.com#Banana"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://www.smoothie.com#HasPrimaryIngredient"/>
+                <owl:hasValue rdf:resource="http://www.smoothie.com#Spinach"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://www.smoothie.com#HasPrimaryIngredient"/>
+                <owl:hasValue rdf:resource="http://www.smoothie.com#Strawberry"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://www.smoothie.com#HasProtein"/>
+                <owl:hasValue rdf:resource="http://www.smoothie.com#Kwark"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://www.smoothie.com#HasTopping"/>
+                <owl:hasValue rdf:resource="http://www.smoothie.com#Dark_Chocolate"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Individuals
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.smoothie.com#Agave -->
+
+    <owl:NamedIndividual rdf:about="http://www.smoothie.com#Agave">
+        <rdf:type rdf:resource="http://www.smoothie.com#Ingredient"/>
+        <rdf:type rdf:resource="http://www.smoothie.com#Sweetener"/>
+        <rdf:type rdf:resource="http://www.smoothie.com#VeganIngredient"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.smoothie.com#Almond_Milk -->
+
+    <owl:NamedIndividual rdf:about="http://www.smoothie.com#Almond_Milk">
+        <rdf:type rdf:resource="http://www.smoothie.com#Ingredient"/>
+        <rdf:type rdf:resource="http://www.smoothie.com#LiquidBase"/>
+        <rdf:type rdf:resource="http://www.smoothie.com#Nuts"/>
+        <rdf:type rdf:resource="http://www.smoothie.com#VeganIngredient"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.smoothie.com#Avocado -->
+
+    <owl:NamedIndividual rdf:about="http://www.smoothie.com#Avocado">
+        <rdf:type rdf:resource="http://www.smoothie.com#Ingredient"/>
+        <rdf:type rdf:resource="http://www.smoothie.com#VeganIngredient"/>
+        <rdf:type rdf:resource="http://www.smoothie.com#Vegetables"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.smoothie.com#Banana -->
+
+    <owl:NamedIndividual rdf:about="http://www.smoothie.com#Banana">
+        <rdf:type rdf:resource="http://www.smoothie.com#Fruits"/>
+        <rdf:type rdf:resource="http://www.smoothie.com#Ingredient"/>
+        <rdf:type rdf:resource="http://www.smoothie.com#PrimaryIngredient"/>
+        <rdf:type rdf:resource="http://www.smoothie.com#VeganIngredient"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.smoothie.com#Black_Berries -->
+
+    <owl:NamedIndividual rdf:about="http://www.smoothie.com#Black_Berries">
+        <rdf:type rdf:resource="http://www.smoothie.com#Berries"/>
+        <rdf:type rdf:resource="http://www.smoothie.com#Fruits"/>
+        <rdf:type rdf:resource="http://www.smoothie.com#Ingredient"/>
+        <rdf:type rdf:resource="http://www.smoothie.com#PrimaryIngredient"/>
+        <rdf:type rdf:resource="http://www.smoothie.com#VeganIngredient"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.smoothie.com#Carrot -->
+
+    <owl:NamedIndividual rdf:about="http://www.smoothie.com#Carrot">
+        <rdf:type rdf:resource="http://www.smoothie.com#Ingredient"/>
+        <rdf:type rdf:resource="http://www.smoothie.com#VeganIngredient"/>
+        <rdf:type rdf:resource="http://www.smoothie.com#Vegetables"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.smoothie.com#Celery -->
+
+    <owl:NamedIndividual rdf:about="http://www.smoothie.com#Celery">
+        <rdf:type rdf:resource="http://www.smoothie.com#Ingredient"/>
+        <rdf:type rdf:resource="http://www.smoothie.com#VeganIngredient"/>
+        <rdf:type rdf:resource="http://www.smoothie.com#Vegetables"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.smoothie.com#Chia_Seeds -->
+
+    <owl:NamedIndividual rdf:about="http://www.smoothie.com#Chia_Seeds">
+        <rdf:type rdf:resource="http://www.smoothie.com#Ingredient"/>
+        <rdf:type rdf:resource="http://www.smoothie.com#Nuts"/>
+        <rdf:type rdf:resource="http://www.smoothie.com#Superfood"/>
+        <rdf:type rdf:resource="http://www.smoothie.com#VeganIngredient"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.smoothie.com#Coconut_Chips -->
+
+    <owl:NamedIndividual rdf:about="http://www.smoothie.com#Coconut_Chips">
+        <rdf:type rdf:resource="http://www.smoothie.com#Ingredient"/>
+        <rdf:type rdf:resource="http://www.smoothie.com#Nuts"/>
+        <rdf:type rdf:resource="http://www.smoothie.com#Topping"/>
+        <rdf:type rdf:resource="http://www.smoothie.com#VeganIngredient"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.smoothie.com#Coconut_Water -->
+
+    <owl:NamedIndividual rdf:about="http://www.smoothie.com#Coconut_Water">
+        <rdf:type rdf:resource="http://www.smoothie.com#Ingredient"/>
+        <rdf:type rdf:resource="http://www.smoothie.com#LiquidBase"/>
+        <rdf:type rdf:resource="http://www.smoothie.com#Nuts"/>
+        <rdf:type rdf:resource="http://www.smoothie.com#VeganIngredient"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.smoothie.com#Cow_Milk -->
+
+    <owl:NamedIndividual rdf:about="http://www.smoothie.com#Cow_Milk">
+        <rdf:type rdf:resource="http://www.smoothie.com#DairyIngredient"/>
+        <rdf:type rdf:resource="http://www.smoothie.com#Ingredient"/>
+        <rdf:type rdf:resource="http://www.smoothie.com#Lactose"/>
+        <rdf:type rdf:resource="http://www.smoothie.com#LiquidBase"/>
+        <rdf:type rdf:resource="http://www.smoothie.com#NonVeganIngredient"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.smoothie.com#Dark_Chocolate -->
+
+    <owl:NamedIndividual rdf:about="http://www.smoothie.com#Dark_Chocolate">
+        <rdf:type rdf:resource="http://www.smoothie.com#Ingredient"/>
+        <rdf:type rdf:resource="http://www.smoothie.com#Lactose"/>
+        <rdf:type rdf:resource="http://www.smoothie.com#Nuts"/>
+        <rdf:type rdf:resource="http://www.smoothie.com#Topping"/>
+        <rdf:type rdf:resource="http://www.smoothie.com#VeganIngredient"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.smoothie.com#Edible_Flowers -->
+
+    <owl:NamedIndividual rdf:about="http://www.smoothie.com#Edible_Flowers">
+        <rdf:type rdf:resource="http://www.smoothie.com#Ingredient"/>
+        <rdf:type rdf:resource="http://www.smoothie.com#Topping"/>
+        <rdf:type rdf:resource="http://www.smoothie.com#VeganIngredient"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.smoothie.com#Flax_Seeds -->
+
+    <owl:NamedIndividual rdf:about="http://www.smoothie.com#Flax_Seeds">
+        <rdf:type rdf:resource="http://www.smoothie.com#Ingredient"/>
+        <rdf:type rdf:resource="http://www.smoothie.com#Nuts"/>
+        <rdf:type rdf:resource="http://www.smoothie.com#Superfood"/>
+        <rdf:type rdf:resource="http://www.smoothie.com#VeganIngredient"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.smoothie.com#Granola -->
+
+    <owl:NamedIndividual rdf:about="http://www.smoothie.com#Granola">
+        <rdf:type rdf:resource="http://www.smoothie.com#Ingredient"/>
+        <rdf:type rdf:resource="http://www.smoothie.com#Topping"/>
+        <rdf:type rdf:resource="http://www.smoothie.com#VeganIngredient"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.smoothie.com#Honey -->
+
+    <owl:NamedIndividual rdf:about="http://www.smoothie.com#Honey">
+        <rdf:type rdf:resource="http://www.smoothie.com#Ingredient"/>
+        <rdf:type rdf:resource="http://www.smoothie.com#NonVeganIngredient"/>
+        <rdf:type rdf:resource="http://www.smoothie.com#Sweetener"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.smoothie.com#Kale -->
+
+    <owl:NamedIndividual rdf:about="http://www.smoothie.com#Kale">
+        <rdf:type rdf:resource="http://www.smoothie.com#Ingredient"/>
+        <rdf:type rdf:resource="http://www.smoothie.com#PrimaryIngredient"/>
+        <rdf:type rdf:resource="http://www.smoothie.com#VeganIngredient"/>
+        <rdf:type rdf:resource="http://www.smoothie.com#Vegetables"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.smoothie.com#Kwark -->
+
+    <owl:NamedIndividual rdf:about="http://www.smoothie.com#Kwark">
+        <rdf:type rdf:resource="http://www.smoothie.com#DairyIngredient"/>
+        <rdf:type rdf:resource="http://www.smoothie.com#Ingredient"/>
+        <rdf:type rdf:resource="http://www.smoothie.com#Lactose"/>
+        <rdf:type rdf:resource="http://www.smoothie.com#NonVeganIngredient"/>
+        <rdf:type rdf:resource="http://www.smoothie.com#Protein"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.smoothie.com#Mango -->
+
+    <owl:NamedIndividual rdf:about="http://www.smoothie.com#Mango">
+        <rdf:type rdf:resource="http://www.smoothie.com#Fruits"/>
+        <rdf:type rdf:resource="http://www.smoothie.com#Ingredient"/>
+        <rdf:type rdf:resource="http://www.smoothie.com#PrimaryIngredient"/>
+        <rdf:type rdf:resource="http://www.smoothie.com#VeganIngredient"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.smoothie.com#Matcha -->
+
+    <owl:NamedIndividual rdf:about="http://www.smoothie.com#Matcha">
+        <rdf:type rdf:resource="http://www.smoothie.com#Ingredient"/>
+        <rdf:type rdf:resource="http://www.smoothie.com#Superfood"/>
+        <rdf:type rdf:resource="http://www.smoothie.com#VeganIngredient"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.smoothie.com#Peanut_Butter -->
+
+    <owl:NamedIndividual rdf:about="http://www.smoothie.com#Peanut_Butter">
+        <rdf:type rdf:resource="http://www.smoothie.com#Ingredient"/>
+        <rdf:type rdf:resource="http://www.smoothie.com#Nuts"/>
+        <rdf:type rdf:resource="http://www.smoothie.com#Protein"/>
+        <rdf:type rdf:resource="http://www.smoothie.com#VeganIngredient"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.smoothie.com#Red_Berries -->
+
+    <owl:NamedIndividual rdf:about="http://www.smoothie.com#Red_Berries">
+        <rdf:type rdf:resource="http://www.smoothie.com#Berries"/>
+        <rdf:type rdf:resource="http://www.smoothie.com#Fruits"/>
+        <rdf:type rdf:resource="http://www.smoothie.com#Ingredient"/>
+        <rdf:type rdf:resource="http://www.smoothie.com#PrimaryIngredient"/>
+        <rdf:type rdf:resource="http://www.smoothie.com#VeganIngredient"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.smoothie.com#Soy_Milk -->
+
+    <owl:NamedIndividual rdf:about="http://www.smoothie.com#Soy_Milk">
+        <rdf:type rdf:resource="http://www.smoothie.com#Ingredient"/>
+        <rdf:type rdf:resource="http://www.smoothie.com#LiquidBase"/>
+        <rdf:type rdf:resource="http://www.smoothie.com#Soy"/>
+        <rdf:type rdf:resource="http://www.smoothie.com#VeganIngredient"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.smoothie.com#Spinach -->
+
+    <owl:NamedIndividual rdf:about="http://www.smoothie.com#Spinach">
+        <rdf:type rdf:resource="http://www.smoothie.com#Ingredient"/>
+        <rdf:type rdf:resource="http://www.smoothie.com#PrimaryIngredient"/>
+        <rdf:type rdf:resource="http://www.smoothie.com#VeganIngredient"/>
+        <rdf:type rdf:resource="http://www.smoothie.com#Vegetables"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.smoothie.com#Spirulina -->
+
+    <owl:NamedIndividual rdf:about="http://www.smoothie.com#Spirulina">
+        <rdf:type rdf:resource="http://www.smoothie.com#Ingredient"/>
+        <rdf:type rdf:resource="http://www.smoothie.com#Superfood"/>
+        <rdf:type rdf:resource="http://www.smoothie.com#VeganIngredient"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.smoothie.com#Strawberry -->
+
+    <owl:NamedIndividual rdf:about="http://www.smoothie.com#Strawberry">
+        <rdf:type rdf:resource="http://www.smoothie.com#Fruits"/>
+        <rdf:type rdf:resource="http://www.smoothie.com#Ingredient"/>
+        <rdf:type rdf:resource="http://www.smoothie.com#PrimaryIngredient"/>
+        <rdf:type rdf:resource="http://www.smoothie.com#VeganIngredient"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.smoothie.com#Sugar -->
+
+    <owl:NamedIndividual rdf:about="http://www.smoothie.com#Sugar">
+        <rdf:type rdf:resource="http://www.smoothie.com#Ingredient"/>
+        <rdf:type rdf:resource="http://www.smoothie.com#Sweetener"/>
+        <rdf:type rdf:resource="http://www.smoothie.com#VeganIngredient"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.smoothie.com#Tofu -->
+
+    <owl:NamedIndividual rdf:about="http://www.smoothie.com#Tofu">
+        <rdf:type rdf:resource="http://www.smoothie.com#Ingredient"/>
+        <rdf:type rdf:resource="http://www.smoothie.com#Protein"/>
+        <rdf:type rdf:resource="http://www.smoothie.com#Soy"/>
+        <rdf:type rdf:resource="http://www.smoothie.com#VeganIngredient"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.smoothie.com#Water -->
+
+    <owl:NamedIndividual rdf:about="http://www.smoothie.com#Water">
+        <rdf:type rdf:resource="http://www.smoothie.com#Ingredient"/>
+        <rdf:type rdf:resource="http://www.smoothie.com#LiquidBase"/>
+        <rdf:type rdf:resource="http://www.smoothie.com#VeganIngredient"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.smoothie.com#Yogurt -->
+
+    <owl:NamedIndividual rdf:about="http://www.smoothie.com#Yogurt">
+        <rdf:type rdf:resource="http://www.smoothie.com#DairyIngredient"/>
+        <rdf:type rdf:resource="http://www.smoothie.com#Ingredient"/>
+        <rdf:type rdf:resource="http://www.smoothie.com#Lactose"/>
+        <rdf:type rdf:resource="http://www.smoothie.com#LiquidBase"/>
+        <rdf:type rdf:resource="http://www.smoothie.com#NonVeganIngredient"/>
+    </owl:NamedIndividual>
+</rdf:RDF>
+
+
+
+<!-- Generated by the OWL API (version 4.5.29.2024-05-13T12:11:03Z) https://github.com/owlcs/owlapi -->
+
