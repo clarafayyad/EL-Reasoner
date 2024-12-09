@@ -171,11 +171,11 @@ class ELReasoner:
                     for e_name, e_ind in self.individuals.items():
                         if target_concept == e_ind.initial_concept:
                             # If such an individual exists, make it the r-successor of ind
-                            role = Role(relation, target_concept, e_name)
-                            if not e_ind.has_role(role):
-                                e_ind.roles.add(role)
+                            role = Role(relation, e_ind)
+                            if not ind.has_role(relation, e_ind):
+                                self.individuals[ind_name].roles.add(role)
                                 print("Added this role to individual", ind_name, ":",
-                                      role.__str__()) if self.debug else None
+                                      role.relation) if self.debug else None
                                 changed = True
                             break
                     else:
@@ -188,9 +188,9 @@ class ELReasoner:
                               target_concept) if self.debug else None
                         new_ind.concepts.add(target_concept)
                         self.individuals[new_ind_name] = new_ind
-                        role = Role(relation, target_concept, new_ind_name)
-                        ind.roles.add(role)
-                        print("Added this role to individual", ind_name, ":", role.__str__()) if self.debug else None
+                        role = Role(relation, new_ind)
+                        self.individuals[ind_name].roles.add(role)
+                        print("Added this role to individual", ind_name, ":", role.relation) if self.debug else None
                         changed = True
         return changed
 
@@ -198,14 +198,19 @@ class ELReasoner:
         # If d has an r-successor with C assigned, add ∃r.C to d
         changed = False
         for ind_name, ind in self.individuals.items():
+            new_concepts = set()
             for role in ind.roles:
-                existential_concept = "∃" + role.relation + "." + role.successor
-                if self.is_relevant(existential_concept):
-                    if existential_concept not in ind.concepts:
-                        ind.concepts.add(existential_concept)
-                        print("Added this concept to individual", ind_name, ":",
-                              existential_concept) if self.debug else None
-                        changed = True
+                for concept in role.successor.concepts:
+                    existential_concept = "∃" + role.relation + "." + concept
+                    if self.is_relevant(existential_concept):
+                        if existential_concept not in ind.concepts:
+                            new_concepts.add(existential_concept)
+
+            if new_concepts - ind.concepts:
+                self.individuals[ind_name].concepts.update(new_concepts)
+                print("Added these concepts to individual", ind_name, ":", new_concepts) if self.debug else None
+                changed = True
+
         return changed
 
     def concept_inclusion_rule(self):
@@ -231,15 +236,10 @@ class ELReasoner:
 
             # After the loop finishes, update the individual's concepts
             if new_concepts - ind.concepts:
-                for new_concept in new_concepts:
-                    self.individuals[ind_name].concepts.add(new_concept)
-                    print("Added this concept to individual", ind_name, ":", new_concepts) if self.debug else None
-                    if '∃' in new_concept:
-                        found_existential = True
-                    changed = True
+                self.individuals[ind_name].concepts.update(new_concepts)
+                print("Added this concept to individual", ind_name, ":", new_concepts) if self.debug else None
+                changed = True
 
-        if found_existential:
-            self.existential_rule_1()
         return changed
 
     def process_t_box(self):
@@ -259,7 +259,6 @@ class ELReasoner:
                         if new_concepts - ind.concepts:
                             self.individuals[ind_name].concepts.update(new_concepts)
                             changed = True
-                        # @TODO: if B <= C, and ind d has role ∃r.B, we should add ∃r.C to it (if relevant)
                 except Exception as e:
                     continue
             if axiom_type == "EquivalenceAxiom":
