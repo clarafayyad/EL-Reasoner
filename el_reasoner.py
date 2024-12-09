@@ -55,9 +55,12 @@ class ELReasoner:
 
         # Include nested concepts by recursively collecting from the LHS and RHS
         def extract_nested_concepts(concept):
-            if '⊓' in concept:
+            if '⊓' in concept or ' n ' in concept:
+                conjunction_op = '⊓'
+                if ' n ' in concept:
+                    conjunction_op = ' n '
                 expression = concept.strip('()')
-                left, right = expression.split('⊓', 1)
+                left, right = expression.split(conjunction_op, 1)
                 subconcepts = [left.strip(), right.strip()]
                 for sub_concept in subconcepts:
                     relevant_concepts.add(sub_concept)
