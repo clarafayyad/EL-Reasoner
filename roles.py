@@ -1,8 +1,7 @@
-class Role (object):
-    def __init__(self, relation, successor, individual):
+from individual import Individual
+
+
+class Role(object):
+    def __init__(self, relation, successor: Individual):
         self.relation = relation
         self.successor = successor
-        self.individual = individual
-
-    def __str__(self):
-        return "∃" + self.relation + "." + self.successor

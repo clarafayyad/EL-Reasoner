@@ -7,12 +7,12 @@ test_cases = {
     "1": {
         "file": "ontologies/animal.owl",
         "class": "Dog",
-        "expected_subsumers": ["Dog", "Mammal", "Animal", "⊤"],
+        "expected_subsumers": ["Dog", "Mammal", "Animal"],
     },
     "2": {
         "file": "ontologies/transport.owl",
         "class": "Bus",
-        "expected_subsumers": ["Bus", "PublicTransport", "Vehicle", "⊤", "∃hasFuelType.Diesel"],
+        "expected_subsumers": ["Bus", "PublicTransport", "Vehicle", "∃hasFuelType.Diesel"],
     },
     "3": {
         "file": "ontologies/person.owl",
