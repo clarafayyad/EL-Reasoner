@@ -243,9 +243,42 @@
     
 
 
+    <!-- http://www.smoothie.com#AlergenFree -->
+
+    <owl:Class rdf:about="http://www.smoothie.com#AlergenFree">
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="http://www.smoothie.com#Smoothie"/>
+                    <owl:Class>
+                        <owl:complementOf>
+                            <owl:Restriction>
+                                <owl:onProperty rdf:resource="http://www.smoothie.com#hasIngredient"/>
+                                <owl:someValuesFrom>
+                                    <owl:Class>
+                                        <owl:intersectionOf rdf:parseType="Collection">
+                                            <rdf:Description rdf:about="http://www.smoothie.com#Alergens"/>
+                                            <rdf:Description rdf:about="http://www.smoothie.com#Ingredient"/>
+                                        </owl:intersectionOf>
+                                    </owl:Class>
+                                </owl:someValuesFrom>
+                            </owl:Restriction>
+                        </owl:complementOf>
+                    </owl:Class>
+                </owl:intersectionOf>
+            </owl:Class>
+        </owl:equivalentClass>
+        <rdfs:subClassOf rdf:resource="http://www.smoothie.com#Smoothie"/>
+        <rdfs:comment>Smoothies that do no not contain any Ingredients with Alergens. So no ingredients with Lactose, Nuts and Soy.</rdfs:comment>
+    </owl:Class>
+    
+
+
     <!-- http://www.smoothie.com#Alergens -->
 
-    <owl:Class rdf:about="http://www.smoothie.com#Alergens"/>
+    <owl:Class rdf:about="http://www.smoothie.com#Alergens">
+        <rdfs:comment>Ingredients containing any type of possible alergens</rdfs:comment>
+    </owl:Class>
     
 
 
@@ -253,6 +286,7 @@
 
     <owl:Class rdf:about="http://www.smoothie.com#Berries">
         <rdfs:subClassOf rdf:resource="http://www.smoothie.com#Fruits"/>
+        <rdfs:comment>Ingredients that are Berries</rdfs:comment>
     </owl:Class>
     
 
@@ -279,7 +313,9 @@
                 </owl:intersectionOf>
             </owl:Class>
         </owl:equivalentClass>
+        <rdfs:subClassOf rdf:resource="http://www.smoothie.com#Smoothie"/>
         <rdfs:subClassOf rdf:resource="http://www.smoothie.com#TasteProfile"/>
+        <rdfs:comment>Smoothies containing both types of Berries</rdfs:comment>
     </owl:Class>
     
 
@@ -312,6 +348,7 @@
                 <owl:hasValue rdf:resource="http://www.smoothie.com#Sugar"/>
             </owl:Restriction>
         </rdfs:subClassOf>
+        <rdfs:comment>The Berry Delight Smoothie! For those that love small coloured Fruits.</rdfs:comment>
     </owl:Class>
     
 
@@ -330,14 +367,18 @@
                 </owl:intersectionOf>
             </owl:Class>
         </owl:equivalentClass>
+        <rdfs:subClassOf rdf:resource="http://www.smoothie.com#Smoothie"/>
         <rdfs:subClassOf rdf:resource="http://www.smoothie.com#TasteProfile"/>
+        <rdfs:comment>Smoothies that are creamy because of Yogurt being used as its liquid base.</rdfs:comment>
     </owl:Class>
     
 
 
     <!-- http://www.smoothie.com#CustomerPreference -->
 
-    <owl:Class rdf:about="http://www.smoothie.com#CustomerPreference"/>
+    <owl:Class rdf:about="http://www.smoothie.com#CustomerPreference">
+        <rdfs:comment>Customer preferences for smoothies based on nutritional content, allergies, or dietary restrictions</rdfs:comment>
+    </owl:Class>
     
 
 
@@ -345,6 +386,16 @@
 
     <owl:Class rdf:about="http://www.smoothie.com#DairyIngredient">
         <rdfs:subClassOf rdf:resource="http://www.smoothie.com#NonVeganIngredient"/>
+        <rdfs:comment>Ingredients that contain Dairy</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.smoothie.com#FiberIngredient -->
+
+    <owl:Class rdf:about="http://www.smoothie.com#FiberIngredient">
+        <rdfs:subClassOf rdf:resource="http://www.smoothie.com#Ingredient"/>
+        <rdfs:comment>Ingredients that contain a lot of Fiber</rdfs:comment>
     </owl:Class>
     
 
@@ -356,6 +407,7 @@
         <rdfs:subClassOf rdf:resource="http://www.smoothie.com#VeganIngredient"/>
         <owl:disjointWith rdf:resource="http://www.smoothie.com#Protein"/>
         <owl:disjointWith rdf:resource="http://www.smoothie.com#Vegetables"/>
+        <rdfs:comment>Ingredients that are Fruits</rdfs:comment>
     </owl:Class>
     
 
@@ -400,6 +452,7 @@
                 <owl:hasValue rdf:resource="http://www.smoothie.com#Edible_Flowers"/>
             </owl:Restriction>
         </rdfs:subClassOf>
+        <rdfs:comment>The Golden Morning Smoothie is ideal for those that want to feel healthy in the morning.</rdfs:comment>
     </owl:Class>
     
 
@@ -407,7 +460,21 @@
     <!-- http://www.smoothie.com#HighFiber -->
 
     <owl:Class rdf:about="http://www.smoothie.com#HighFiber">
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="http://www.smoothie.com#Smoothie"/>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="http://www.smoothie.com#hasIngredient"/>
+                        <owl:minQualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">2</owl:minQualifiedCardinality>
+                        <owl:onClass rdf:resource="http://www.smoothie.com#FiberIngredient"/>
+                    </owl:Restriction>
+                </owl:intersectionOf>
+            </owl:Class>
+        </owl:equivalentClass>
         <rdfs:subClassOf rdf:resource="http://www.smoothie.com#CustomerPreference"/>
+        <rdfs:subClassOf rdf:resource="http://www.smoothie.com#Smoothie"/>
+        <rdfs:comment>Smoothie that have at least 2 high fiber ingredients</rdfs:comment>
     </owl:Class>
     
 
@@ -415,7 +482,21 @@
     <!-- http://www.smoothie.com#HighProtein -->
 
     <owl:Class rdf:about="http://www.smoothie.com#HighProtein">
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="http://www.smoothie.com#Smoothie"/>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="http://www.smoothie.com#HasProtein"/>
+                        <owl:minQualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">2</owl:minQualifiedCardinality>
+                        <owl:onClass rdf:resource="http://www.smoothie.com#Protein"/>
+                    </owl:Restriction>
+                </owl:intersectionOf>
+            </owl:Class>
+        </owl:equivalentClass>
         <rdfs:subClassOf rdf:resource="http://www.smoothie.com#CustomerPreference"/>
+        <rdfs:subClassOf rdf:resource="http://www.smoothie.com#Smoothie"/>
+        <rdfs:comment>Smoothies that have at least 2 high protein ingredients</rdfs:comment>
     </owl:Class>
     
 
@@ -435,6 +516,7 @@
 
     <owl:Class rdf:about="http://www.smoothie.com#Lactose">
         <rdfs:subClassOf rdf:resource="http://www.smoothie.com#Alergens"/>
+        <rdfs:comment>Ingredients that contain Lactose</rdfs:comment>
     </owl:Class>
     
 
@@ -464,7 +546,9 @@
                 </owl:intersectionOf>
             </owl:Class>
         </owl:equivalentClass>
+        <rdfs:subClassOf rdf:resource="http://www.smoothie.com#CustomerPreference"/>
         <rdfs:subClassOf rdf:resource="http://www.smoothie.com#Smoothie"/>
+        <rdfs:comment>Smoothies that do not contain any ingredients with Lactose</rdfs:comment>
     </owl:Class>
     
 
@@ -476,14 +560,7 @@
         <owl:disjointWith rdf:resource="http://www.smoothie.com#PrimaryIngredient"/>
         <owl:disjointWith rdf:resource="http://www.smoothie.com#Protein"/>
         <owl:disjointWith rdf:resource="http://www.smoothie.com#Sweetener"/>
-    </owl:Class>
-    
-
-
-    <!-- http://www.smoothie.com#LowCalorie -->
-
-    <owl:Class rdf:about="http://www.smoothie.com#LowCalorie">
-        <rdfs:subClassOf rdf:resource="http://www.smoothie.com#CustomerPreference"/>
+        <rdfs:comment>The Liquid Base of the Smoothie used to make it drinkable</rdfs:comment>
     </owl:Class>
     
 
@@ -492,6 +569,7 @@
 
     <owl:Class rdf:about="http://www.smoothie.com#NamedSmoothie">
         <rdfs:subClassOf rdf:resource="http://www.smoothie.com#Smoothie"/>
+        <rdfs:comment>Named Smoothies that are on the Menu and have a preset list of ingredients</rdfs:comment>
     </owl:Class>
     
 
@@ -504,13 +582,16 @@
                 <owl:intersectionOf rdf:parseType="Collection">
                     <rdf:Description rdf:about="http://www.smoothie.com#Smoothie"/>
                     <owl:Restriction>
-                        <owl:onProperty rdf:resource="http://www.smoothie.com#HasSweetener"/>
+                        <owl:onProperty rdf:resource="http://www.smoothie.com#hasIngredient"/>
                         <owl:someValuesFrom rdf:resource="http://www.smoothie.com#NonVeganIngredient"/>
                     </owl:Restriction>
                 </owl:intersectionOf>
             </owl:Class>
         </owl:equivalentClass>
+        <rdfs:subClassOf rdf:resource="http://www.smoothie.com#CustomerPreference"/>
+        <rdfs:subClassOf rdf:resource="http://www.smoothie.com#Smoothie"/>
         <owl:disjointWith rdf:resource="http://www.smoothie.com#Vegan"/>
+        <rdfs:comment>Smoothies that contain (a) non vegan ingredient(s)</rdfs:comment>
     </owl:Class>
     
 
@@ -520,6 +601,7 @@
     <owl:Class rdf:about="http://www.smoothie.com#NonVeganIngredient">
         <rdfs:subClassOf rdf:resource="http://www.smoothie.com#Ingredient"/>
         <owl:disjointWith rdf:resource="http://www.smoothie.com#VeganIngredient"/>
+        <rdfs:comment>Ingredients that are not Vegan</rdfs:comment>
     </owl:Class>
     
 
@@ -528,6 +610,7 @@
 
     <owl:Class rdf:about="http://www.smoothie.com#Nuts">
         <rdfs:subClassOf rdf:resource="http://www.smoothie.com#Alergens"/>
+        <rdfs:comment>Ìngredients that contain Nuts</rdfs:comment>
     </owl:Class>
     
 
@@ -537,6 +620,7 @@
     <owl:Class rdf:about="http://www.smoothie.com#PrimaryIngredient">
         <rdfs:subClassOf rdf:resource="http://www.smoothie.com#Ingredient"/>
         <owl:disjointWith rdf:resource="http://www.smoothie.com#Sweetener"/>
+        <rdfs:comment>The main Ingredients used to make the Smoothie. At least one needs to be used in a Smoothie</rdfs:comment>
     </owl:Class>
     
 
@@ -547,25 +631,7 @@
         <rdfs:subClassOf rdf:resource="http://www.smoothie.com#SecondaryIngredient"/>
         <owl:disjointWith rdf:resource="http://www.smoothie.com#Sweetener"/>
         <owl:disjointWith rdf:resource="http://www.smoothie.com#Vegetables"/>
-    </owl:Class>
-    
-
-
-    <!-- http://www.smoothie.com#Protein_Rich -->
-
-    <owl:Class rdf:about="http://www.smoothie.com#Protein_Rich">
-        <owl:equivalentClass>
-            <owl:Class>
-                <owl:intersectionOf rdf:parseType="Collection">
-                    <rdf:Description rdf:about="http://www.smoothie.com#Smoothie"/>
-                    <owl:Restriction>
-                        <owl:onProperty rdf:resource="http://www.smoothie.com#HasProtein"/>
-                        <owl:someValuesFrom rdf:resource="http://www.smoothie.com#Protein"/>
-                    </owl:Restriction>
-                </owl:intersectionOf>
-            </owl:Class>
-        </owl:equivalentClass>
-        <rdfs:subClassOf rdf:resource="http://www.smoothie.com#Smoothie"/>
+        <rdfs:comment>Ingredients with high Protein values</rdfs:comment>
     </owl:Class>
     
 
@@ -584,7 +650,9 @@
                 </owl:intersectionOf>
             </owl:Class>
         </owl:equivalentClass>
+        <rdfs:subClassOf rdf:resource="http://www.smoothie.com#Smoothie"/>
         <rdfs:subClassOf rdf:resource="http://www.smoothie.com#TasteProfile"/>
+        <rdfs:comment>Smoothies that are refreshing because of the vegetables used</rdfs:comment>
     </owl:Class>
     
 
@@ -593,6 +661,7 @@
 
     <owl:Class rdf:about="http://www.smoothie.com#SecondaryIngredient">
         <rdfs:subClassOf rdf:resource="http://www.smoothie.com#Ingredient"/>
+        <rdfs:comment>Additional ingredients used in smoothies to enhance nutrition, sweetness, and visual appeal</rdfs:comment>
     </owl:Class>
     
 
@@ -614,6 +683,7 @@
                 <owl:onClass rdf:resource="http://www.smoothie.com#LiquidBase"/>
             </owl:Restriction>
         </rdfs:subClassOf>
+        <rdfs:comment>Smoothies are our main dish on the Menu.  A smoothie must contain at least one liquid base and a primary ingredient to be considered a smoothie.</rdfs:comment>
     </owl:Class>
     
 
@@ -622,6 +692,7 @@
 
     <owl:Class rdf:about="http://www.smoothie.com#Soy">
         <rdfs:subClassOf rdf:resource="http://www.smoothie.com#Alergens"/>
+        <rdfs:comment>Ìngredients that contain Soy</rdfs:comment>
     </owl:Class>
     
 
@@ -630,6 +701,7 @@
 
     <owl:Class rdf:about="http://www.smoothie.com#Superfood">
         <rdfs:subClassOf rdf:resource="http://www.smoothie.com#SecondaryIngredient"/>
+        <rdfs:comment>Additional Ingredients argued to be &quot;Superfoods&apos;&apos; for their health benefits</rdfs:comment>
     </owl:Class>
     
 
@@ -665,6 +737,7 @@
             </owl:Class>
         </owl:equivalentClass>
         <rdfs:subClassOf rdf:resource="http://www.smoothie.com#Smoothie"/>
+        <rdfs:comment>A Supreme Smoothie uses all possible types of additional ingredients. So it contains a Superfood, a Sweetener, a Protein Source and a Topping.</rdfs:comment>
     </owl:Class>
     
 
@@ -683,7 +756,9 @@
                 </owl:intersectionOf>
             </owl:Class>
         </owl:equivalentClass>
+        <rdfs:subClassOf rdf:resource="http://www.smoothie.com#Smoothie"/>
         <rdfs:subClassOf rdf:resource="http://www.smoothie.com#TasteProfile"/>
+        <rdfs:comment>Smoothies that use at least one Sweetener</rdfs:comment>
     </owl:Class>
     
 
@@ -692,13 +767,16 @@
 
     <owl:Class rdf:about="http://www.smoothie.com#Sweetener">
         <rdfs:subClassOf rdf:resource="http://www.smoothie.com#SecondaryIngredient"/>
+        <rdfs:comment>Ingredients that make the Smoothie sweet</rdfs:comment>
     </owl:Class>
     
 
 
     <!-- http://www.smoothie.com#TasteProfile -->
 
-    <owl:Class rdf:about="http://www.smoothie.com#TasteProfile"/>
+    <owl:Class rdf:about="http://www.smoothie.com#TasteProfile">
+        <rdfs:comment>A tasteprofile categorises Smoothies into the profiles: Creamy, Refreshing, Sweet amd Berry.</rdfs:comment>
+    </owl:Class>
     
 
 
@@ -778,6 +856,7 @@
                 <owl:hasValue rdf:resource="http://www.smoothie.com#Edible_Flowers"/>
             </owl:Restriction>
         </rdfs:subClassOf>
+        <rdfs:comment>The Big Boss: This Smoothie is not for the faint hearted. Get ready to fill up your stomach with this Smoothie that will feel as 2 dinners at once!</rdfs:comment>
     </owl:Class>
     
 
@@ -786,6 +865,7 @@
 
     <owl:Class rdf:about="http://www.smoothie.com#Topping">
         <rdfs:subClassOf rdf:resource="http://www.smoothie.com#SecondaryIngredient"/>
+        <rdfs:comment>Toppings added at the end for enhancement of taste or visual appeal</rdfs:comment>
     </owl:Class>
     
 
@@ -808,7 +888,9 @@
                 </owl:intersectionOf>
             </owl:Class>
         </owl:equivalentClass>
-        <rdfs:subClassOf rdf:resource="http://www.smoothie.com#TasteProfile"/>
+        <rdfs:subClassOf rdf:resource="http://www.smoothie.com#CustomerPreference"/>
+        <rdfs:subClassOf rdf:resource="http://www.smoothie.com#Smoothie"/>
+        <rdfs:comment>Smoothies that do not contain any non vegan ingredient</rdfs:comment>
     </owl:Class>
     
 
@@ -817,6 +899,7 @@
 
     <owl:Class rdf:about="http://www.smoothie.com#VeganIngredient">
         <rdfs:subClassOf rdf:resource="http://www.smoothie.com#Ingredient"/>
+        <rdfs:comment>Ingredients that are Vegan</rdfs:comment>
     </owl:Class>
     
 
@@ -856,6 +939,7 @@
                 <owl:hasValue rdf:resource="http://www.smoothie.com#Sugar"/>
             </owl:Restriction>
         </rdfs:subClassOf>
+        <rdfs:comment>The Vegan Delight Smoothie is there for Vegan customers who love great taste!</rdfs:comment>
     </owl:Class>
     
 
@@ -895,6 +979,7 @@
                 <owl:hasValue rdf:resource="http://www.smoothie.com#Tofu"/>
             </owl:Restriction>
         </rdfs:subClassOf>
+        <rdfs:comment>The Vegan Gym Goer Smoothie is made for Vegan Customers who want to have a high Protein intake for maximum muscle growth!</rdfs:comment>
     </owl:Class>
     
 
@@ -904,6 +989,7 @@
     <owl:Class rdf:about="http://www.smoothie.com#Vegetables">
         <rdfs:subClassOf rdf:resource="http://www.smoothie.com#PrimaryIngredient"/>
         <rdfs:subClassOf rdf:resource="http://www.smoothie.com#VeganIngredient"/>
+        <rdfs:comment>Ingredients that are Vegetables</rdfs:comment>
     </owl:Class>
     
 
@@ -948,6 +1034,7 @@
                 <owl:hasValue rdf:resource="http://www.smoothie.com#Dark_Chocolate"/>
             </owl:Restriction>
         </rdfs:subClassOf>
+        <rdfs:comment>We Love Gym is a Smoothie made for customers who want to grow their muscles, flexibility and mind!</rdfs:comment>
     </owl:Class>
     
 
@@ -997,6 +1084,7 @@
     <!-- http://www.smoothie.com#Banana -->
 
     <owl:NamedIndividual rdf:about="http://www.smoothie.com#Banana">
+        <rdf:type rdf:resource="http://www.smoothie.com#FiberIngredient"/>
         <rdf:type rdf:resource="http://www.smoothie.com#Fruits"/>
         <rdf:type rdf:resource="http://www.smoothie.com#Ingredient"/>
         <rdf:type rdf:resource="http://www.smoothie.com#PrimaryIngredient"/>
@@ -1009,6 +1097,7 @@
 
     <owl:NamedIndividual rdf:about="http://www.smoothie.com#Black_Berries">
         <rdf:type rdf:resource="http://www.smoothie.com#Berries"/>
+        <rdf:type rdf:resource="http://www.smoothie.com#FiberIngredient"/>
         <rdf:type rdf:resource="http://www.smoothie.com#Fruits"/>
         <rdf:type rdf:resource="http://www.smoothie.com#Ingredient"/>
         <rdf:type rdf:resource="http://www.smoothie.com#PrimaryIngredient"/>
@@ -1040,6 +1129,7 @@
     <!-- http://www.smoothie.com#Chia_Seeds -->
 
     <owl:NamedIndividual rdf:about="http://www.smoothie.com#Chia_Seeds">
+        <rdf:type rdf:resource="http://www.smoothie.com#FiberIngredient"/>
         <rdf:type rdf:resource="http://www.smoothie.com#Ingredient"/>
         <rdf:type rdf:resource="http://www.smoothie.com#Nuts"/>
         <rdf:type rdf:resource="http://www.smoothie.com#Superfood"/>
@@ -1107,6 +1197,7 @@
     <!-- http://www.smoothie.com#Flax_Seeds -->
 
     <owl:NamedIndividual rdf:about="http://www.smoothie.com#Flax_Seeds">
+        <rdf:type rdf:resource="http://www.smoothie.com#FiberIngredient"/>
         <rdf:type rdf:resource="http://www.smoothie.com#Ingredient"/>
         <rdf:type rdf:resource="http://www.smoothie.com#Nuts"/>
         <rdf:type rdf:resource="http://www.smoothie.com#Superfood"/>
@@ -1118,6 +1209,7 @@
     <!-- http://www.smoothie.com#Granola -->
 
     <owl:NamedIndividual rdf:about="http://www.smoothie.com#Granola">
+        <rdf:type rdf:resource="http://www.smoothie.com#FiberIngredient"/>
         <rdf:type rdf:resource="http://www.smoothie.com#Ingredient"/>
         <rdf:type rdf:resource="http://www.smoothie.com#Topping"/>
         <rdf:type rdf:resource="http://www.smoothie.com#VeganIngredient"/>
@@ -1194,6 +1286,7 @@
 
     <owl:NamedIndividual rdf:about="http://www.smoothie.com#Red_Berries">
         <rdf:type rdf:resource="http://www.smoothie.com#Berries"/>
+        <rdf:type rdf:resource="http://www.smoothie.com#FiberIngredient"/>
         <rdf:type rdf:resource="http://www.smoothie.com#Fruits"/>
         <rdf:type rdf:resource="http://www.smoothie.com#Ingredient"/>
         <rdf:type rdf:resource="http://www.smoothie.com#PrimaryIngredient"/>

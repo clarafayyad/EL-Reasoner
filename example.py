@@ -14,7 +14,7 @@ formatter = gateway.getSimpleDLFormatter()
 print("Loading the ontology...")
 
 # load an ontology from a file
-ontology = parser.parseFile("pizza.owl")
+ontology = parser.parseFile("SmoothV2.owl")
 
 print("Loaded the ontology!")
 
@@ -141,7 +141,7 @@ print(formatter.format(gci))
 elk = gateway.getELKReasoner()
 hermit = gateway.getHermiTReasoner() # might the upper case T!
 
-margherita = elFactory.getConceptName('"Margherita"')
+margherita = elFactory.getConceptName('Vegan_Delight')
 
 print()
 print("I am first testing ELK.")

@@ -73,6 +73,6 @@ def testReasoner(reasonerPythonFile):
     outputfile.close()
 
 
-reasoner = sys.argv[1]
+reasoner = "../main.py"
 
 testReasoner(reasoner)

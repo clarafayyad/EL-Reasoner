@@ -6,6 +6,9 @@ from roles import Role
 
 
 def extract_relation_and_successor(expression):
+    # Function to extract relation and successor from an existential restriction
+    # If expression looks like: ∃r.C, this function should return r, C
+
     # Remove double quotes if present
     exp = expression.replace('"', '')
     # Regular expression to match ∃r.C where r is the relation and C is the successor
@@ -27,6 +30,7 @@ class ELReasoner:
         self.visualize_ontology()
 
     def visualize_ontology(self):
+        # Function to print ontology axioms for debugging purposes
         if not self.debug:
             return
         axioms = self.ontology.tbox().getAxioms()
@@ -35,13 +39,11 @@ class ELReasoner:
             print(self.formatter.format(axiom))
         print()
 
-    def initialize_individual(self, d0, C0):
-        new_individual = Individual(d0)
-        new_individual.initial_concept = C0
-        new_individual.concepts.add(C0)
-        self.individuals[d0] = new_individual
-
     def extract_relevant_concepts(self):
+        # Function to extract relevant concepts
+        # A relevant concept is one that appears in the input (ontology)
+        # Nested concepts are also included
+
         relevant_concepts = set()
 
         # Gather all concepts from the TBox axioms (both LHS and RHS)
@@ -78,7 +80,19 @@ class ELReasoner:
 
         return [concept.replace('"', '') for concept in relevant_concepts]
 
+    def is_relevant(self, concept):
+        return concept in self.relevant_concepts
+
+    def initialize_individual(self, d0, C0):
+        # Function to initialize and individual d0 with initial Concept C0 assigned
+        new_individual = Individual(d0)
+        new_individual.initial_concept = C0
+        new_individual.concepts.add(C0)
+        self.individuals[d0] = new_individual
+
     def extract_lhs_rhs_from_axiom(self, axiom):
+        # Function to extrac lhs (left hand side) and rhs (right hand side) from an axiom
+        # For example, if the axiom is 'C≡D', it would return C,D
         try:
             lhs = self.formatter.format(axiom.lhs())
             clean_lhs = lhs.replace('"', '')
@@ -94,10 +108,8 @@ class ELReasoner:
                     clean_rhs = rhs.replace('"', '')
                     return clean_lhs.strip(), clean_rhs.strip()
 
-    def is_relevant(self, concept):
-        return concept in self.relevant_concepts
-
     def run_completion(self):
+        # Function to iteratively apply all completion rules on all individuals until no further changes can be made
         changes = True
         while changes:
             changes = False
@@ -109,10 +121,8 @@ class ELReasoner:
             if self.concept_inclusion_rule(): changes = True
             if self.process_t_box(): changes = True
 
-    def is_entailment(self, d0, D0):
-        return D0 in self.individuals[d0].concepts
-
     def top_rule(self):
+        # Function to add concept ⊤ to all individuals
         changed = False
         for ind_name, ind in self.individuals.items():
             if "⊤" not in ind.concepts:
@@ -122,7 +132,7 @@ class ELReasoner:
         return changed
 
     def conjunction_rule_1(self):
-        # If d has C⊓D assigned, assign also C and D to d
+        # If d has C⊓D assigned, assign C and D to d
         changed = False
         new_concepts = set()
         for ind_name, ind in self.individuals.items():
@@ -161,7 +171,11 @@ class ELReasoner:
         return changed
 
     def existential_rule_1(self):
-        # Apply rule to all individuals
+        # If individual d has ∃r.C assigned, check whether there exists another individual whose initial concept
+        # matches the target concept C. If such an individual is found, make it the r-successor of d by creating
+        # a role between the two and adding it to d.
+        # If no matching individual is found, create a new individual with the target concept C as its initial concept,
+        # and make it an r-successor of d.
         changed = False
         individuals_copy = copy.deepcopy(self.individuals)
         for ind_name, ind in list(individuals_copy.items()):
@@ -245,6 +259,10 @@ class ELReasoner:
         return changed
 
     def process_t_box(self):
+        # Apply the general concept inclusion and equivalence axioms of the ontology to propagate knowledge.
+        # Look for "GeneralConceptInclusion" and "Equivalence" axioms, and for each, extract the LHS and RHS concepts.
+        # Then, for each individual, check if the individual has the LHS concept assigned. If so, and if the RHS is
+        # relevant, add the RHS to the individual’s concepts.
         changed = False
         axioms = self.ontology.tbox().getAxioms()
         for axiom in axioms:
